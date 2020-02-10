@@ -1,0 +1,27 @@
+class Node:
+    def __init__(self,data):
+        self.data=data
+        self.next=None
+
+def insertionSort(head):
+    sorted=None
+    current=head
+    while(current!=None):
+        next=current.next
+        sorted=sortedInsert(sorted,current)
+        current=next
+    head=sorted
+    return head
+
+def sortedInsert(head,new_node):
+    current=None
+    if(head==None or head.data >= new_node.data):
+        new_node.next=head
+        head=new_node
+    else:
+        current=head
+        while(current!=None and current.next.data<new_node.data):
+            current=current.next
+        new_node.next=current.next
+        current.next=new_node
+    return head
