@@ -1,0 +1,47 @@
+def merge(arr,left,middle,right):
+
+    n1=middle-left+1        #dlugosc pierwszej
+    n2=right-middle
+
+    L=[0]*n1                #połówki
+    R=[0]*n2
+
+    l=0
+    i=left
+    while l<n1:             #dwie pętle przepisujące wartości do "połówek"
+        L[l]=arr[i]
+        l+=1
+        i+=1
+    r=0
+    while r<n2:
+        R[r]=arr[i]
+        r+=1
+        i+=1
+
+    l=0
+    r=0
+    i=left
+    while l<n1 and r<n2:    #przepisywanie od najmniejszych do tablicy wyjsciowej (scalanie dwóch posortowanych)
+        if L[l]<R[r]:
+            arr[i]=L[l]
+            l+=1
+        else:
+            arr[i]=R[r]
+            r+=1
+        i+=1
+    while l<n1:             #przepisanie pozostałych wartości
+        arr[i]=L[l]
+        i+=1
+        l+=1
+    while r<n2:
+        arr[i]=R[r]
+        i+=1
+        r+=1
+
+def mergeSort(arr,left,right):
+    if left<right:
+        middle=(left+right)//2
+        mergeSort(arr,left,middle)
+        mergeSort(arr,middle+1,right)
+        merge(arr,left,middle,right)
+
