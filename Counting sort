@@ -1,0 +1,23 @@
+
+def countingSort(arr,ran):  #ran - range of numbers
+
+    n=ran 
+    count=[0]*n
+
+    for i in range(len(arr)):
+        count[arr[i]]+=1
+    sum=0
+
+    for i in range(n):
+        sum+=count[i]
+        count[i]=sum
+
+    output=[0]*len(arr)
+
+    for i in range(len(arr)):
+        output[count[arr[i]]-1]=arr[i]
+        count[arr[i]]-=1
+    return output
+    
+    
+    
