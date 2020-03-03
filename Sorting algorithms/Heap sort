@@ -1,0 +1,39 @@
+
+def leftChild(i):
+    return i*2
+
+def rightChild(i):
+    return i*2+1
+
+
+def heapify(heap,i):        #przywracanie własności kopca
+
+    l=leftChild(i)
+    r=rightChild(i)
+
+    m=i
+    size=heap[0]
+
+    if l<=size and heap[l]>heap[m]:
+        m=l
+    if r<=size and heap[r]>heap[m]:
+        m=r
+
+    if m != i:
+        heap[i],heap[m]=heap[m],heap[i]
+        heapify(heap,m)
+
+
+def buildHeap(h):
+    for i in range(h[0]//2,0,-1):
+        heapify(h,i)
+
+def heapSort(h):
+
+    buildHeap(h)
+
+    for i in range(h[0],1,-1):
+        h[i],h[1]=h[1],h[i]
+        h[0]-=1
+        heapify(h,1)
+
