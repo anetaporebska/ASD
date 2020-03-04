@@ -1,0 +1,40 @@
+class Queue():
+    def __init__(self):
+        self.stack1=[0]*5
+        self.stack2=[0]*5
+        self.top1=-1
+        self.top2=-1
+
+    def enQueue(self,val):
+        self.top1 += 1
+        self.stack1[self.top1]=val
+        print(self.stack1)
+
+    def isEmpty1(self):
+        return self.top1==-1
+
+    def isEmpty2(self):
+        return self.top2==-1
+
+    def deQueue(self):
+
+        if self.isEmpty2():
+            if self.isEmpty1():
+                sys.exit()
+
+            while not self.isEmpty1():
+
+                self.top2+=1
+                self.stack2[self.top2]=self.stack1[self.top1]
+                self.top1-=1
+
+        print(self.stack1)
+        print(self.stack2)
+
+        el=self.stack2[self.top2]
+        self.top2-=1
+
+        print(self.stack2)
+
+        return el
+
