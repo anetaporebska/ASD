@@ -1,0 +1,89 @@
+
+def parent(i):
+    return i//2
+def leftChild(i):
+    return i*2
+def rightChild(i):
+    return i*2+1
+
+
+
+
+
+def minheapify(minheap,i):
+    l=leftChild(i)
+    r=rightChild(i)
+    mn=i
+    size=minheap[0]
+    if l<=size and minheap[l]<minheap[mn]:
+        mn=l
+
+    if r<=size and minheap[r]<minheap[mn]:
+        mn=r
+
+    if mn != i:
+        minheap[mn],minheap[i]=minheap[i],minheap[mn]
+        minheapify(minheap,mn)
+
+
+
+
+def maxheapify(maxheap,i):
+    l=leftChild(i)
+    r=rightChild(i)
+    mx=i
+    size=maxheap[0]
+    if l<=size and maxheap[l]>maxheap[mx]:
+        mx=l
+
+    if r<=size and maxheap[r]>maxheap[mx]:
+        mx=r
+
+    if mx != i:
+        maxheap[mx],maxheap[i]=maxheap[i],maxheap[mx]
+        maxheapify(maxheap,mx)
+
+
+
+
+def insert(minheap,maxheap,x):
+
+    if x<maxheap[1]:
+        maxheap[0] += 1
+        maxheap[maxheap[0]]=x
+        maxheapify(maxheap,maxheap[0])
+    else:
+        minheap[0] += 1
+        minheap[minheap[0]]=x
+        minheapify(minheap,minheap[0])
+
+    if minheap[0]==maxheap[0]+2:
+        d=minheap[1]
+        l=minheap[0]//2
+        minheap[1]=minheap[l]
+        minheap[0]-=1
+        minheapify(minheap,l)
+
+        maxheap[maxheap[0]]=d
+        maxheap[0]+=1
+        maxheapify(maxheap,maxheap[0]-1)
+
+    if maxheap[0]==minheap[0]+2:
+        d=maxheap[1]
+        l=maxheap[0]//2
+        maxheap[1]=maxheap[l]
+        maxheap[0]-=1
+        maxheapify(maxheap,l)
+
+        minheap[minheap[0]]=d
+        minheap[0]+=1
+        minheapify(minheap,minheap[0]-1)
+
+def getMedian(minheap,maxheap):
+
+    if minheap[0]==maxheap[0]:
+        return (minheap[1]+maxheap[1])/2
+    elif minheap[0]>maxheap[0]:
+        return minheap[0]
+    else:
+        return maxheap[0]
