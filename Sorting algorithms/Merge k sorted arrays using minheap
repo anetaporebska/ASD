@@ -1,0 +1,61 @@
+import sys
+def parent(i):
+    return i//2
+
+def leftChild(i):
+    return i*2
+
+def rightChild(i):
+    return i*2+1
+
+def minHeapify(heap,i,idx):
+    l=leftChild(i)
+    r=rightChild(i)
+
+    mn=i
+    size=heap[0]
+    if l<=size and heap[l]<heap[mn]:
+        mn=l
+    if r<=size and heap[r]<heap[mn]:
+        mn=r
+
+    if mn != i:
+        heap[i],heap[mn]=heap[mn],heap[i]
+        idx[i-1],idx[mn-1]=idx[mn-1],idx[i-1]
+        minHeapify(heap,mn,idx)
+
+
+def buildHeap(heap,idx):
+    for i in range(heap[0]//2,0,-1):
+        minHeapify(heap,i,idx)
+
+
+def mergeSortedArrays(arr):
+
+    idx=[0]*6       
+    poz=[0]*6
+    minheap=[0]*7
+    minheap[0]=6
+
+    result=[0]*len(arr)*len(arr[0])
+    for j in range(1, len(minheap)):
+        minheap[j]=arr[j-1][0]
+    idx=[0,1,2,3,4,5]
+    
+    i=0
+    while i < len(result):
+        buildHeap(minheap,idx)
+        result[i]=minheap[1]
+        if poz[idx[0]]<3:
+            poz[idx[0]]+=1
+            minheap[1]=arr[idx[0]][poz[idx[0]]]
+        else:
+            minheap[1]=sys.maxsize
+        i+=1
+
+    
+
+
+
+
+
