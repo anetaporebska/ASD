@@ -1,0 +1,38 @@
+
+class Node:
+    def __init__(self,val):
+        self.left=None
+        self.right=None
+        self.val=val
+
+
+def inOrderTraversal(tmp):
+
+    if not tmp:
+        return
+
+    inOrderTraversal(tmp.left)
+    print(tmp.val)
+    inOrderTraversal(tmp.right)
+
+
+def insertInOrder(temp, key):
+    queue = []
+    queue.append(temp)
+
+
+    while (len(queue)):
+        temp = queue[0]
+        queue.pop(0)
+
+        if (not temp.left):
+            temp.left = Node(key)
+            break
+        else:
+            queue.append(temp.left)
+
+        if (not temp.right):
+            temp.right = Node(key)
+            break
+        else:
+            queue.append(temp.right)
