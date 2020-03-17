@@ -1,0 +1,71 @@
+
+class Node:
+    def __init__(self,val):
+        self.left=None
+        self.right=None
+        self.val=val
+
+
+def printInorder(root):
+
+    if root is not None:
+        printInorder(root.left)
+        print(root.val,end=" ")
+        printInorder(root.right)
+
+def searchKey(root,key):
+
+    if root.val==key:
+        return root
+    if root.val<key:
+        return searchKey(root.right,key)
+    else:
+        return searchKey(root.left,key)
+
+def insertKey(root,node):
+
+    if root is None:
+        root=node
+
+    else:
+        if node.val<root.val:
+            if root.left is None:
+                root.left=node
+            else:
+                insertKey(root.left,node)
+        else:
+            if root.right is None:
+                root.right=node
+            else:
+                insertKey(root.right,node)
+
+def minValueNode(root):
+    current=root
+    while current.left is not None:
+        current=current.left
+    return current
+
+def deleteNode(root,key):
+
+    if root is None:
+        return root
+
+    if key<root.val:
+        root.left=deleteNode(root.left,key)
+    elif key>root.val:
+        root.right=deleteNode(root.right,key)
+    else:
+        if root.left is None:
+            temp=root.right
+            root=None
+            return temp
+        elif root.right is None:
+            temp=root.left
+            root=None
+            return temp
+        temp=minValueNode(root.right)
+        root.val=temp.val
+        root.right=deleteNode(root.right,temp.val)
+
+    return root
+
