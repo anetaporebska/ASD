@@ -1,0 +1,31 @@
+"""
+
+Count connected components
+
+"""
+
+def DFSUtil(g,v,visited):
+
+    visited[v]=True
+    for u in range(len(g)):
+        if visited[u]==False and g[u][v]==1:
+            DFSUtil(g,u,visited)
+
+
+
+
+def count(g,v):
+    visited=[False]*len(g)
+    counter=0
+    for i in range(len(g)):
+        if visited[i]==False:
+            DFSUtil(g,i,visited)
+            counter+=1
+    return counter
+
+
+
+if __name__=="__main__":
+
+    g=[[0,0,0,0,0,0],[0,0,1,0,0,0],[0,1,0,1,0,0],[0,0,1,0,0,0],[0,0,0,0,0,1],[0,0,0,0,1,0]]
+    print(count(g,0))
