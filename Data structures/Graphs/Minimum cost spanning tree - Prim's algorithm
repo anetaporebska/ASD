@@ -1,0 +1,44 @@
+"""
+
+Minimum cost spanning tree - Prim's algorithm
+
+"""
+import sys
+
+def minKey(key,mstSet):
+
+    mi=sys.maxsize
+    for v in range(len(g)):
+        if key[v]<mi and mstSet[v]==False:
+            mi=key[v]
+            min_idx=v
+    return min_idx
+
+
+
+def prim(g):
+
+    mstSet=[False]*len(g)
+    key=[sys.maxsize]*len(g)
+    key[0]=0
+    parent=[None]*len(g)
+    parent[0]=-1
+
+    for i in range(len(g)):
+
+        u=minKey(key,mstSet)
+        mstSet[u]=True
+
+        for v in range(len(g)):
+            if g[u][v]>0 and mstSet[v]==False and key[v]>g[u][v]:
+                key[v]=g[u][v]
+                parent[v]=u
+
+
+    print(parent)
+
+
+if __name__=="__main__":
+    g= [[0,5,6,0,0,4],[5,0,3,0,0,0],[6,3,0,5,2,0],[0,0,5,0,0,2],[0,0,2,0,0,6],[4,0,0,2,6,0]]
+    prim(g)
+
