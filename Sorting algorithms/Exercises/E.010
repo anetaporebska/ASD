@@ -1,0 +1,57 @@
+"""
+HackerLand National Bank has a simple policy for warning clients about possible fraudulent account activity.
+If the amount spent by a client on a particular day is greater than or equal to 2x the client's median spending for a
+trailing number of days, they send the client a notification about potential fraud. The bank doesn't send the client
+any notifications until they have at least that trailing number of prior days' transaction data.
+
+Given the number d of trailing days and a client's total daily expenditures for a period of n days, find and print the
+number of times the client will receive a notification over all n days.
+"""
+
+
+def median(counter,d):
+
+    traversed=counter[0]
+    idx=1
+
+    med_h=0
+    med_l=0
+
+    while traversed <= d//2:
+        med_h=idx
+        if traversed < d//2:
+            med_l=idx
+
+        traversed += counter[idx]
+        idx+=1
+
+
+    if d%2==0:
+        return med_l + med_h
+    else:
+        return med_h*2
+
+
+def activityNotifications(expenditure, d):
+
+    r=max(expenditure)
+    counter=[0]*(r+1)
+    notify=0
+    history=[]
+    for day in range(len(expenditure)):
+        if day >= d:
+            if expenditure[day] >= median(counter,d):
+                notify+=1
+            counter[history.pop(0)]-=1
+        counter[expenditure[day]]+=1
+        history.append(expenditure[day])
+
+
+    return notify
+
+
+
+n=9
+d=5
+expenditure=[2,3,4,2,3,6,8,4,5]
+print(activityNotifications(expenditure,d))
