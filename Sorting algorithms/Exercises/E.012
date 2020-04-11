@@ -1,0 +1,60 @@
+"""
+Given an array with n distinct elements, convert the given array to a reduced form where
+all elements are in range from 0 to n-1. The order of elements is same, i.e.,
+0 is placed in place of smallest element, 1 is placed for second smallest element, … n-1 is
+placed for largest element.
+
+Input:
+
+The first line of input contains an integer T denoting the number of test cases.
+The first line of each test case is N, where N is the size of array.
+The second line of each test case contains N input arr[i].
+
+Output:
+
+Print the reduced form of the array.
+
+"""
+
+
+def quickSort(arr,new,left,right):
+    if left<right:
+        pi=partition(arr,new,left,right)
+        quickSort(arr,new,left,pi-1)
+        quickSort(arr,new,pi+1,right)
+
+def partition(arr,new,left,right):
+    i=left-1
+    pivot=arr[right]
+    for j in range(left,right):
+        if arr[j]<=pivot:
+            i+=1
+            arr[i],arr[j]=arr[j],arr[i]
+            new[i],new[j]=new[j],new[i]
+    arr[i+1],arr[right]=arr[right],arr[i+1]
+    new[i+1],new[right]=new[right],new[i+1]
+    return i+1
+
+def reduced(arr):
+    n=len(arr)
+    new=[0]*n
+    for i in range(n):
+        new[i]=i
+    quickSort(arr,new,0,n-1)
+    result=[0]*n
+    for i in range(n):
+        result[new[i]]=i
+
+    return result
+
+if __name__=="__main__":
+    t=int(input())
+
+    for i in range(t):
+        x = int(input())
+        arr = list(map(int, input().rstrip().split()))
+        arr = reduced(arr)
+        for i in range(x):
+            print(arr[i], end=" ")
+        print("")
+
