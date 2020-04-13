@@ -1,0 +1,37 @@
+"""
+Proszę zaimplementować algorytm, który mając na wejściu napis zbudowany z nawiasów (,),[,], który
+sprawdza, czy nawiasowanie jest poprawne.
+"""
+
+
+
+
+def nawiasy(str):
+    stack=[]
+    top=-1
+
+    for i in range(len(str)):
+        if str[i]=='(' or str[i]=='[':
+            stack.append(str[i])
+        else:
+            if str[i]==')':
+                check=stack.pop(-1)
+                if check!='(':
+                    return False
+            else:
+                check=stack.pop(-1)
+                if check!='[':
+                    return False
+
+    return True
+
+
+if __name__=="__main__":
+    str="(())[())]()[]"
+    if nawiasy(str):
+        print("poprawne")
+    else:
+        print("niepoprawne")
+
+
+
