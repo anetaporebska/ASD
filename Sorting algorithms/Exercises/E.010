@@ -37,7 +37,8 @@ def activityNotifications(expenditure, d):
     r=max(expenditure)
     counter=[0]*(r+1)
     notify=0
-    history=[]
+    history=[]                              #tu będę przechowywać poprzednie d wartości, potrzebne żeby później zmniejszać
+                                            #counter gdy dana wartość już nas nie interesuje
     for day in range(len(expenditure)):
         if day >= d:
             if expenditure[day] >= median(counter,d):
