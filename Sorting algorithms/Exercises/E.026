@@ -1,0 +1,20 @@
+"""
+Dana jest tablica A mająca n liczb naturalnych przyjmujących wartości zakresu [0,..,n].
+Proszę napisać algorytm znajdujący rozmiar największego podzbioru liczb z A, takiego,
+że ich największy wspólny dzielnik jest różny od 1. Algorytm powinien działać
+jak najszybciej.
+"""
+
+def NWD(arr,n):
+    d=[0]*(n+1)
+    for i in range(len(arr)):
+        p=2
+        while p<=arr[i]:
+            if arr[i]%p==0:
+                d[p]+=1
+            p+=1
+    return max(d)
+
+if __name__=="__main__":
+    arr=[10,9,8,6,3,5,4,2,1,8]
+    print(NWD(arr,10))
