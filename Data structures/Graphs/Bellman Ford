@@ -20,6 +20,12 @@ def BellmanFord(s,g):
                     dist[p]=dist[j]+g[j][k][1]
                     parent[p]=j
 
+    for j in range(n):
+        for k in range(len(g[j])):
+            p = g[j][k][0]
+            if dist[p] > dist[j] + g[j][k][1]:
+                print("negative cycle")
+                return
     print(dist)
     print(parent)
     printPath(6,parent)
