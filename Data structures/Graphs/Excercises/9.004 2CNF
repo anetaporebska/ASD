@@ -1,0 +1,20 @@
+"""
+Dana jest formuła logiczna w postaci 2CNF. To znaczy, że formuła jest koniunkcją klauzuli, gdzie każda klauzula to
+alternatywa dwóch literałów, a każdy literał to zmienna lub jej negacja.
+Proszę podać algorytm, który w czasie wielomianowym stwierdza, czy istnieje wartościowanie spełniające formułę.
+
+
+We can express the CNF as implication.
+We create an Implication Graph which has 2 edges for every clause in CNF
+A v B  <==> (~A=>B) ^ (~B=>A)
+
+
+if edge x=>(~x) exist: x=False
+if edge (~x)=>x exist: x=True
+if both above exists: there is no possible assignment
+
+
+CONCLUSION: if any two variables x and ~x are on a cycle (in the same strongly connected graph), the CNF is
+unsatisfiable
+
+"""
