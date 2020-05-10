@@ -1,0 +1,13 @@
+"""
+Jak znaleźć najkrótsze ścieżki z wierzchołka s do wszsystkich innych w acyklicznym gafie skierowanym?
+(Krawędzie są ważone)
+
+
+We initialize distances to all vertices as infinite and distance to source as 0, then we find a topological sorting of
+the graph. Topological Sorting of a graph represents a linear ordering of the graph
+Once we have topological order (or linear representation),
+we one by one process all vertices in topological order. For every vertex being processed,
+we update distances of its adjacent using distance of current vertex.
+
+O(V+E)
+"""
