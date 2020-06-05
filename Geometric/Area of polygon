@@ -1,0 +1,35 @@
+
+"""
+When to left substract area of trapezium above 0X, when to right add.
+"""
+
+
+def area(A):
+    P=0
+    px=A[0][0]      #previous x
+    py=A[0][1]      #previous y
+    for i in range(1,len(A)):
+        x=A[i][0]
+        y=A[i][1]
+        h=abs(px-x)
+        if x>px:
+            P=P-((py+y)/2)*h
+        else:
+            P=P+((py+y)/2)*h
+        px=x
+        py=y
+    x=A[0][0]
+    y=A[0][1]
+    h=abs(px-x)
+    if x > px:
+        P = P - ((py + y) / 2) * h
+    else:
+        P = P + ((py + y) / 2) * h
+    return P
+
+
+
+A=[(1,1),(3,2),(4,1),(6,3),(4,3),(5,4),(4,4)]
+print(area(A))
+B=[(1,1),(4,1),(4,4),(1,4)]
+print(area(B))
