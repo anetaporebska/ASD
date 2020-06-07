@@ -1,0 +1,51 @@
+
+"""
+Jarvis algorithm
+"""
+import sys
+
+
+def orientation(p,q,r):
+    return (q[1]-p[1])*(r[0]-q[0])-(q[0]-p[0])*(r[1]-q[1])
+
+def jarvis(A):
+
+    mi=(sys.maxsize,sys.maxsize)
+    idx=0
+    for i in range(len(A)):
+        if A[i][1]<mi[1]:
+            mi=A[i]
+            idx=i
+        elif A[i][1]==mi[1]:
+            if A[i][0]<mi[0]:
+                mi=A[i]
+                idx=i
+
+    ot=[]
+    p=idx
+    n=len(A)
+    br=False
+    while not br:
+        ot.append(A[p])
+        q=(p+1)%n #żeby jakby nie było żadnego to na kolejny
+        for i in range(n):
+            if orientation(A[p],A[i],A[q])<0:
+                q=i
+        p=q
+        if p==idx:
+            br=True
+
+    return ot
+
+
+
+
+
+
+
+
+
+A=[(1,1),(3,2),(4,1),(6,3),(4,3),(5,4),(4,4)]
+print(jaruis(A))
+B=[(1,1),(4,1),(4,4),(1,4)]
+print(jaruis(B))
