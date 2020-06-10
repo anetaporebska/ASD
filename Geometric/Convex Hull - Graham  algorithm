@@ -1,0 +1,78 @@
+
+"""
+Graham algorithm
+
+1. znajdż punkt p0 (maksymalnie w dół, a w przypadku remisu ten maksymalnie z lewej)
+2. posortuj punkty po współrzędnej kątowej względem p0
+3. umieść na stosie 3 pierwsze punkty
+4. wędruj po kolejnych punktach:
+    dopóki skręcasz w prawo - usuwaj wierzchołek ze stosu
+    wrzuć wierzchołek na stos
+
+
+"""
+import sys
+
+
+def orientation(p,q):
+    if p[0]!=q[0]:
+        return 1.0*(p[1]-q[1])/(p[0]-q[0])
+    else:
+        return sys.maxsize
+
+def partition(left,right,mi,A):
+    i=left-1
+    pivot=orientation(mi,A[right])
+    for j in range(left,right):
+        if orientation(mi,A[j])<=pivot:
+            i+=1
+            A[i],A[j]=A[j],A[i]
+    A[i+1],A[right]=A[right],A[i+1]
+    return i+1
+
+def sort(p,k,mi,A):
+    if p<k:
+        pi=partition(p,k,mi,A)
+        sort(p,pi-1,mi,A)
+        sort(pi+1,k,mi,A)
+
+
+
+def graham(A):
+
+    mi=(sys.maxsize,sys.maxsize)
+    idx=0
+    for i in range(len(A)):
+        if A[i][1]<mi[1]:
+            mi=A[i]
+            idx=i
+        elif A[i][1]==mi[1]:
+            if A[i][0]<mi[0]:
+                mi=A[i]
+                idx=i
+    n=len(A)
+    A[idx],A[0]=A[idx],A[0]
+    sort(1,n-1,mi,A)
+
+    heap=[]
+    heap.append(A[0])
+    heap.append(A[1])
+    heap.append(A[2])
+
+    for i in range(3,n):
+        while A[i][0]>heap[-1][0]:
+            heap.pop(-1)
+        heap.append(A[i])
+
+    return heap
+
+
+
+
+
+A=[(1,1),(3,2),(4,1),(6,3),(4,3),(5,4),(4,4)]
+print(graham(A))
+B=[(1,1),(4,1),(4,4),(1,4)]
+print(graham(B))
+C=[(1,1),(3,2),(4,1),(9,2),(9,9),(6,3),(4,3),(5,4),(4,4)]
+print(graham(C))
