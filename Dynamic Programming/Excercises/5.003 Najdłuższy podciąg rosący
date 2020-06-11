@@ -1,0 +1,22 @@
+"""
+Proszę podać algorytm dla najdłuższego podciągu rosnącego o złożoności nlogn.
+
+In general, we have set of active lists of varying length. We are adding an element A[i]
+to these lists. We scan the lists (for end) elements) in decreasing order of their lenght.
+We will verify the end elements of all the lists to find a list whose end element is smaller
+than A[i]
+
+1. If A[i] is smallest among all end candidates of active lists, we will start new active
+list of length 1.
+2. If A[i] is largest among all end candidates of active lists, we will clone the largest
+actual list and extend it by A[i].
+3. If A[i] is in between, we will find a list with largest end element that is
+smaller than A[i]. Clone and extend this list by A[i]. We will discard all other lists of
+same length as that of this modified list.
+
+
+Remember to maintain the condition: "end element of smaller list is smaller than
+end element of larger list"
+
+
+"""
