@@ -5,7 +5,7 @@ BFS using adjacency matrix
 """
 
 
-def BFT(g,f):
+def BFS(g,f):
 
     visited=[False]*len(g)
     queue=[]
@@ -30,4 +30,4 @@ def BFT(g,f):
 if __name__=="__main__":
 
     g=[[0,1,0,1,1,],[1,0,1,0,0,],[0,1,0,1,1],[1,0,1,0,0],[1,0,1,0,0]]
-    BFT(g,0)
+    BFS(g,0)
