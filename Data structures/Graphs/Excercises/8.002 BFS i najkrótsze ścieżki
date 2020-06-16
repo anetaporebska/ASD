@@ -1,0 +1,50 @@
+"""
+
+Proszę zaimplementować algorytm BFS tak, żeby znajdował najkrótsze ścieżki w grafie i następnie,
+żeby dało się wypisać najkrotszą ścieżkę z zadanego punktu startowego do wskazanego wierzchołka.
+
+Robiąc BFS zapamiętujemy po prostu poprzedni wierzchołek i tak później odtwarzamy ścieżkę.
+
+
+"""
+
+
+def BFS(g,f):
+
+    visited=[False]*len(g)
+    pred=[None]*len(g)
+    queue=[]
+
+    queue.append(f)
+    visited[f]=True
+
+
+
+    while queue:
+        s=queue.pop(0)
+        p=s
+
+        for i in range(s,len(g)):
+            if visited[i]==False and g[s][i]==1:
+                queue.append(i)
+                visited[i]=True
+                pred[i]=p
+    return pred
+
+def print_path(p,s,k): #s-wierzchołek startowy, k-wierzchołek końcowy
+    if p[k] and k!=s:
+        print_path(p,s,p[k])
+    else:
+        print(s)
+    print(k)
+def path(g,s,k):
+    p=BFS(g,s)
+    print_path(p,s,k)
+
+
+g=[[0,1,0,1,1,],[1,0,1,0,0,],[0,1,0,1,1],[1,0,1,0,0],[1,0,1,0,0]]
+path(g,0,2)
+print("")
+g=[[0,1,0,0,1,],[1,0,1,0,0,],[0,1,0,1,1],[0,0,1,0,0],[1,0,1,0,0]]
+path(g,0,3)
+
