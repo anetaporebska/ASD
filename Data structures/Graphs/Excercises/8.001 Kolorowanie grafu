@@ -1,0 +1,20 @@
+"""
+Mamy dany nieskierowany graf G = (V, E).
+Dla każdego wierzchołka v należy wybrać liczbę naturalną f (v) (nazywaną kolorem v) tak, żeby dla każdej
+krawędzi {x, y} ∈ E zachodzilo, ze f (x) ! = f (y). Należy użyć jak najmniej kolorów (czyli zbior f (V ) powinien
+mieć minimalną liczność). Problem jest NP-zupełny więc nie istnieje optymalny algorytm wielomianowy (o
+ile P jest różne od NP). Proszę podać algorytm zachłanny, który używa najwyżej D + 1 kolorów, gdzie D to
+maksymalny stopień wierzchołka w G.
+
+
+Algortym:
+
+
+1. Color first vertex with first color,
+2. Do following for remaining V-1 vertices:
+    - consider the currently picked vertex and color it with the lowest numbered colour that has not been used
+        on any previously colored vertices adjacent to it
+        If all previously used colors appear on vertices adjacent to v, assign a new color to it.
+
+
+"""
