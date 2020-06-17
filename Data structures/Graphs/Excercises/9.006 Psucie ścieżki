@@ -1,0 +1,11 @@
+"""
+Dany jest graf nieskierowany G oraz dwa jego wierzchołki, s i t. Proszę zaproponować algorytm,
+który sprawdza czy istnieje taka krawędź, po usunięciu której długość najkrótszej
+ścieżki z s do t rośnie (lub taka ścieżka przestaje istnieć).
+
+
+zliczanie najkrótszych ścieżek
+jeśli jest tylko jedna to na pewno da się ją przerwać
+jeśli więcej to buduję graf najkrótszych ścieżek i w nim sprawdzam czy istnieje most
+"""
+
