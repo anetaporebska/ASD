@@ -1,0 +1,55 @@
+"""
+Floyd-Warshall algorithm
+
+
+TW: Jeżeli w grafie ważonym najkrótsza ścieżka od i do j wiedzie przez k, to fragmenty od i do k i k do j, stanowią
+najkrótsze ścieżki między tymi parami wierzchołków.
+
+Można to wyskorzystać do utworzenia rekurencyjnej funkcji, która podaje wagę najkrótszej ścieżki między prarą i oraz j:
+f(i,j)=min [k in V] (f(i,k)+f(k,j))
+warunki brzegowe:
+i==j ->0
+(i,j) in E -> w(i,j)
+
+
+
+Algorytm działa zawsze w złożoności O(V^3)
+Pamięciowo: O(V^2)
+Nie może zostać wykorzystany do obliczenia najkrótszych ścieżek między wierzchołkami z jekiegoś podzbioru
+wierzchołków.
+
+
+"""
+import sys
+
+def FloydWarshall(G):
+    V=len(G)
+    f=[None]*V
+    for i in range(V):
+        f[i]=[0]*V
+
+    for i in range(V):
+        for j in range(V):
+            if i==j:
+                f[i][j]=0
+            elif G[i][j]:
+                f[i][j]=G[i][j]
+            else:
+                f[i][j]=sys.maxsize
+
+    for k in range(V):
+        for i in range(V):
+            for j in range(V):
+                f[i][j]=min(f[i][j],f[i][k]+f[k][j])
+
+    return f
+
+
+G=[[0,0,3,0,2],
+   [8,0,0,0,5],
+   [0,0,0,0,7],
+   [0,0,4,0,0],
+   [0,0,0,1,0]]
+
+print(FloydWarshall(G))
+
