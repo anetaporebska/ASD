@@ -1,0 +1,59 @@
+"""
+Mamy dany graf G = (V, E) z wagami w: E → N−{0} (dodatnie liczby naturalne).
+Chcemy znalezc scieżkę z wierzchołka u do v tak, by iloczyn wag był minimalny.
+Proszę zaproponować algorytm.
+
+
+
+relaksacja z mnożeniem lub można zamienić iloczyn na sumę logarytmów
+
+"""
+
+
+from queue import PriorityQueue
+from math import log10
+
+def relax(cost,parent,infinity,v,u,cvu):
+    if infinity[u]:
+        cost[u]=cost[v]*cvu
+        parent[u]=v
+        infinity[u]=False
+        return True
+
+    if cost[u]>cost[v]+cvu:
+        cost[u]=cost[v]*cvu
+        parent[u]=v
+        return True
+    return False
+
+
+def dijkstra(G,s):
+    q=PriorityQueue()
+    n=len(G)
+    cost=[-1]*n
+    infinity=[True]*n
+    parent=[None]*n
+
+    cost[s]=1
+    infinity[s]=False
+    q.put((1,s))
+
+    while not q.empty():
+        c,v=q.get()
+        for i in range(n):
+            if G[v][i]:
+                if relax(cost,parent,infinity,v,i,G[v][i]):
+                    q.put((cost[i],i))
+    cost[s]=0
+    print(cost)
+    print(parent)
+
+
+G = [[0, 4, 7, 2, 0, 0],
+     [4, 0, 0, 0, 0, 3],
+     [7, 0, 0, 2, 3, 1],
+     [2, 0, 2, 0, 10, 0],
+     [0, 0, 3, 10, 0, 0],
+     [0, 3, 1, 0, 0, 0]]
+
+dijkstra(G, 0)
