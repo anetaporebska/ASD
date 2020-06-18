@@ -1,0 +1,69 @@
+"""
+Jak znaleźć cykl o minimalnej wadze w grafie skierowanym z dodatnimi wagami?
+Zakładamy reprezentację macierzową.
+
+
+Rozwiązanie O(E*(ElogV))  O(E*V*V) -> O(V^4)
+Rozważam każdą krawędź w grafie:
+    usuwam ją i znajduję Dijkstrą najkrótszą ścieżkę pomiędzy wierzchołkami które łączyła
+    przywracam krawędź i przechodzę do następnej
+biorę minimum ze wszystkich cykli
+
+
+Rozwiązanie: O(V^3)
+Korzystamy z algorytmu Floyda-Warshalla - wyznaczam najkrótsze ścieżki pomiędzy każdymi wierzchołkami
+następnie dla każdej krawędzi sprawdzam czy istnieje ścieżka pomiędzy wierzchołkami które łączy i zapisuję
+wartość znalezionego cyklu
+
+"""
+import sys
+
+def FloydWarshall(G):
+    V=len(G)
+    f=[None]*V
+    for i in range(V):
+        f[i]=[0]*V
+
+    for i in range(V):
+        for j in range(V):
+            if i==j:
+                f[i][j]=0
+            elif G[i][j]:
+                f[i][j]=G[i][j]
+            else:
+                f[i][j]=sys.maxsize
+
+    for k in range(V):
+        for i in range(V):
+            for j in range(V):
+                f[i][j]=min(f[i][j],f[i][k]+f[k][j])
+
+    return f
+
+def minCycle(G):
+    f=FloydWarshall(G)
+    V=len(G)
+    cycles=[]
+    for i in range(V):
+        for j in range(V):
+            if G[i][j]:
+                if f[j][i]<sys.maxsize:
+                    cycles.append(f[j][i]+G[i][j])
+    print(cycles)
+    return min(cycles)
+
+G=[[0,0,3,0,2],
+   [8,0,0,0,5],
+   [0,0,0,0,7],
+   [0,0,4,0,0],
+   [0,0,0,1,0]]
+
+print(minCycle(G))
+
+G=[[0,2,0,0,5],
+   [0,0,3,0,0],
+   [7,0,0,2,0],
+   [0,0,0,0,1],
+   [0,0,1,0,0]]
+
+print(minCycle(G))
