@@ -1,0 +1,71 @@
+"""
+Przewodnik chce przewieźć grupę turystów z miasta A do miasta B.
+Po drodze jest jednak wiele innych miast i między różnymi miastami jeżdzą autobusy
+o różnej pojemności. Mamy daną listę trójek postaci (x, y, c), gdzie x i y to miasta między którymi
+bezpośrednio jeździ autobus o pojemności c pasażerów. Proszę zaproponować algorytm, który znajduje trasę
+z A do B, po której może przejechać możliwie jak największa grupa turystów bez rozdzielania się.
+
+
+zamieniam listę trójek na graf reprezentowany macierzowo
+przy relaksacji obliczam minimum z kosztu dotarcia do poprzedniego wierzchołka i wagi krawędzi między nimi
+jako, że zależy mi żeby uzyskać max grupę osób to z kolejki musze wyciągać w odwrotnej kolejności wierzchołki -
+po największych wagach
+
+
+"""
+
+import sys
+
+from queue import PriorityQueue
+
+
+def relax(cost,parent,infinity,v,u,cvu):
+    if infinity[u]:
+        cost[u]=min(cost[v],cvu)
+        parent[u]=v
+        infinity[u]=False
+        return True
+    if cost[u]>cvu:
+        cost[u]=min(cost[v],cvu)
+        parent[u]=v
+        return True
+    return False
+
+
+def dijkstra(G,s):
+    q=PriorityQueue()
+    n=len(G)
+    cost=[sys.maxsize]*n
+    infinity=[True]*n
+    parent=[None]*n
+
+    infinity[s]=False
+    q.put((cost[s],s))
+    #zakładam, że 100 to max waga jaka może się znaleźć
+    #normalnie po prostu trzeba znaleźć maxa
+    #robię to po to, żeby z kolejki zawsze wyciągać w odwrotnej kolejności - czyli po największych wagach
+    while not q.empty():
+        c,v=q.get()
+        for i in range(n):
+            if G[v][i]:
+                if relax(cost,parent,infinity,v,i,G[v][i]):
+                    q.put((100-cost[i],i))
+
+    print(cost)
+    print(parent)
+
+
+G = [[0, 4, 7, 2],
+     [4, 0, 0, 0],
+     [7, 0, 0, 2],
+     [2, 0, 2, 0]]
+
+dijkstra(G, 0)
+
+g=[[0,5,6,0,0],
+   [5,0,0,8,7],
+   [6,0,0,7,0],
+   [0,8,7,0,10],
+   [0,7,0,10,0]]
+
+dijkstra(g,0)
