@@ -2,6 +2,9 @@
 Mówimy, że wierzchołek t w grafie skierowanym jest uniweralnym ujściem, jeśli z każdego innego wierzchołka v istnieje
 krawędź z v do t, oraz nie istnieje żadna krawędź wychodząca z t. Proszę napisać algorym znajdujący ujście (jeśli istnieje)
 przy macierzowej reprezentacji grafu.
+
+Złożoność: O(n)
+
 """
 
 def universalSink(g):
