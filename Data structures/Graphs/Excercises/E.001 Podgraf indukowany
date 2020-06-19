@@ -1,0 +1,16 @@
+"""
+Dany jest graf G. Podaj jak najszybszy algorytm, który tworzy graf indukowany G’ zawierający taki podzbiór krawędzi
+i wierzchołków z G, że każdy wierzchołek w G’ ma stopień co najmniej k.
+
+
+Dodaję do kolejki priorytetowej wierzchołki których stopień jest mniejszy od k.
+W dodatkowej tablicy przechowuję informację o tym jaki stopień ma każdy wierzchołek.
+W pętli:
+Wyciągam z kolejki wierzchołek o minimalnym stopniu i usuwam go wraz z przyległymi krawędziami - aktualizuję stopnie
+wierzchołków,  z którymi był połączony i dodaję je do kolejki priorytetowej jeśli teraz ich stopień jest mniejszy niż k.
+Za kazdym razem jak wyciągam wierzchołek to muszę sprawdzić, czy już go przypadkiem wcześniej nie usunęłam - jeśli tak 
+to biorę kolejny w kolejności wierzchołek.
+
+
+
+"""
