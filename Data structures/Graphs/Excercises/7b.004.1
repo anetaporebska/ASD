@@ -1,0 +1,16 @@
+"""
+
+Dany jest ciąg przedziałów postaci [ai,bi]. Dwa przedziały można skleić, jeśli mają dokładnie jesten punkt wspólny.
+Podaj algorytm, który sprawdza, czy da się uzyskać przedział [a,b] poprzez sklejanie odcinków.
+
+
+Tworzymy graf z odcinków. Każdy wierzchołek przechowuje odcinek.
+Wierzchołki zawierające "styczne" odcinki łączymy krawędzią - sklejamy jeśli mają dokładnie jeden punkt wspólny.
+Sortujemy wierzchołki po ich początkach.
+Będziemy potrzebować teraz wierzchołków które zaczynają się w a lub przed a. Z każdego takiego wierzchołka 
+wykonujemy DFS i sprawdzamy czy skończy się w b lub za b. Jeśli tak to zwracamy True.
+
+
+
+
+"""
