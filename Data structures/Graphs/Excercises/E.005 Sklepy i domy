@@ -1,0 +1,25 @@
+"""
+W miastach są sklepy i domy. Trzeba sprawdzić jak daleko do najbliższego sklepu mają mieszkańcy.
+class Vertex:
+    def __init__(self):
+        self.shop=None      #True - sklep , False -dom
+        self.distances=[]       #tablica odległości do innych wierzchołków
+        self.edges=[]           #numery wierzchołków opisanych w distances
+        self.edge=0             #rozmiar tablicy distances (i edges)
+        self.d_store=[]         #odległość do najbliższego sklepu
+
+
+Zaimplementwoać funkcję uzupełanijącą d_store dla tablicy Vertexów i oszacować złożoność algorytmu.
+
+
+
+W tym zadaniu nie interesuje nas de facto jaki to sklep do którego dany dom ma najbliżej ani jakie są odległości
+pomiędzy sklepami, dlatego też wszystkie sklepy mogą stanowić jeden wierzchołek i zadanie sprowadza się do
+znalezienia najktótszych ścieżek z wirzchołka sklepów do wszystkich innych domów. - Algorytm Dijkstry
+
+
+
+"""
+
+
+
