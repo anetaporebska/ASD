@@ -1,0 +1,7 @@
+
+"""
+Dany jest graf ważony, pozbawiony cyklów ujemnych. Podaj algorytm, który znajdzie najkrótsze ścieżki do wszystkich
+wierzchołków od źródła s, posiadające nie więcej niż k krawędzi.
+
+Można to rozwiązać wykonując k iteracji algorytmu Bellmana-Forda (bo każda iteracja przedłuża ścieżki o 1).
+"""
