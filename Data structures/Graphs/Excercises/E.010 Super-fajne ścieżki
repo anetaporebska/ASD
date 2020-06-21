@@ -1,0 +1,20 @@
+"""
+Dany jest graf ważony G. Ścieżka super-fajna to taka, która nie jest tylko najkrótszą wagowo ścieżką mięzy u i v,
+ale także ma najmniejszą liczbę krawędzi (inaczej mówiąc szukamy najkrótszych ścieżek w sensie liczby krawędzi
+wśród najkrótszych ścieżek w sensie wagowym) Podaj algorytm, który dla zadanego wierzchołka startowego s,
+znajdzie super-fajne ścieżki do pozostałych wierzchołków.
+
+
+
+Rozwiązanie ElogV
+Zrobić Dijkstrę, która bierze pod uwagę wagę ścieżki jak i długość ścieżki.
+Jeśli dwie wartości są równe wagowo to sprawdzać czy któraś nie ma krótszej ścieżki w sensie liczby krawędzi.
+Do kolejki wrzucamy krotki, najpierw porównujemy po pierwszym elemencie w tuplu, następnie po drugim.
+
+
+
+
+"""
+
+
+
