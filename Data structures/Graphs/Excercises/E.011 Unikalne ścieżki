@@ -1,0 +1,16 @@
+"""
+Dany jest graf ważony G. Szukamy unikalnych ścieżek. Zaproponuj algorytm, który dla zadanego wierzchołka
+startowego s, stwierdzi, czy dla każego wierzchołka w G istnieje uniklana ścieżka w G.
+
+
+
+Rozwiązanie ElogV
+Odpalić Dijkstrę z wierzchołka s, tak żeby dla każdego wierzchołka znać długość najkrótszej ścieżki.
+Następnie drugi raz wykonujemy Dijkstrę i liczymy ile najkrótszych ścieżek wchodzi do danego wierzchołka.
+
+
+
+"""
+
+
+
