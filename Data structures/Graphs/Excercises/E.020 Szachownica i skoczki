@@ -1,0 +1,15 @@
+"""
+Szachownica NxN, ustawiono pewną ilość skoczków. Opisać algorytm który sprawdzi czy jest
+możliwa sekwencja ruchów spełniająca:
+- każdy ruch kończy się zbiciem skoczka
+- sekwencja kończy się gdy zostanie jeden skoczek
+
+
+Każdy skoczek to wierzchołek grafu, a krawędziami łaczę te wierzchołki, które potencjalnie mogą się zbić.
+Następnie przechodzę po grafie za każdym razem wybierając wierzchołek o najmniejszym stopniu, usuwając krawędzie po
+których przyszłam i nie cofając się do wierzchołków, w których byłam (tablica visited). Jeśli uda się w ten sposób
+przejśc po wszyskich wierzchołkach to istnieje taka sekwencja.
+
+
+
+"""
