@@ -1,0 +1,17 @@
+"""
+Mieszkańcy chińskiej prowincji Wuhuan, wpadli na pomysł jak ograniczyć ruch drogowy podczas pandemii koronawirusa.
+ Postanowili, że droga między daną parą miast będzie miała unikalną wagę będącą jakąś potęgą dwójki,
+ oznaczającą opłatę za poruszanie się daną drogą. Podaj jak najszybszy algorytm obliczający wagę najkrótszej
+ ścieżki między każdą parą miast.
+
+
+Budujemy MST algorytmem kruskala a następnie używając BFS (lub DFS) wyznaczamy wagę najkrótszej ścieżki
+między każdą parą miast.
+
+
+
+
+"""
+
+
+
