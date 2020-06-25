@@ -1,0 +1,10 @@
+"""
+Mając działającą w O(1) funkcję randINT(k) zwracającą losowy int z zakresu [0,k), podaj jak należy zmodyfikować
+drzewo RB, żeby dało isę w O(log(n)) pobrać losowy element z tego drzewa.
+
+
+W każdym węźle drzewa przechowujemy informację ile elementów znajduje się w jego prawym i lewym poddrzewie - w ten
+sposób w łatwy sposób możemy znależć i-ty element wyznaczony przez funkcję randINT(k) (k- to rozmiar naszego drzewa) 
+
+
+"""
