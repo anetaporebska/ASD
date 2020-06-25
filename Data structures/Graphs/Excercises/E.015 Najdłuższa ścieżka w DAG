@@ -1,0 +1,14 @@
+"""
+Podaj jak najszybszy algorytm obliczający najdłuższą ścieżkę w ważonym DAG, startując ze źródła s.
+
+
+Sortujemy topologicznie wierzchołki, a następnie w tej kolejności relaksujemy.
+
+Once we have topological order (or linear representation), we one by one process all vertices in topological order.
+For every vertex being processed, we update distances of its adjacent using distance of current vertex.
+
+
+"""
+
+
+
