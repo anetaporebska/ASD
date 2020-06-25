@@ -1,0 +1,15 @@
+"""
+Bajtocja jest krainą zawierającą N miast, N-1 dwukierunkowych dróg i układ dróg tworzy graf spójny.
+ Mając listę K miast do których musimy dostarczyć przesyłki i mogąc wystartować i zakończyć trasę w dowolnym mieście,
+  podaj minimalny dystans, który musimy przebyć, że zrealizować to zadanie.
+
+
+
+Rozwiązanie liniowe
+Znajdujemy średnicę grafu (puszczamy DFS z dowolnego wierzchołka i wyznaczamy wierzchołek, który jest najdalej od niego
+i z tego wierzchołka znów wyznaczamy najdalszy od niego - pomiędzy tymi dwoma jest średnica)
+następnie musimy po tym przejść (liczeenie dystansu zaczynamy od wierzchołka, który należy do K lub jego odnoga należy)
+pamietamy, że dystans do odnóg należy policzyć dwa razy
+
+
+"""
