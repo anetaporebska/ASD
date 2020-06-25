@@ -1,0 +1,21 @@
+"""
+Huragan nawiedził Bajtocję i zniszczył wszystkie biblioteki w kraju. Także drogi wymagają wyremontowania. Władca krainy
+ chce odbudować tyle bibliotek, aby wszyscy mieszkańcy mieli do nich dostęp.
+Obywatel miasta ma dostęp do biblioteki jeśli znajduje się w jego mieście lub w dowolnym innym mieście,
+do którego może dojechać
+Kraina ma n miast i m zniszczonych dróg (dane jako graf w dowolnie wybranej reprezentacji).
+Dany jest też koszt zbudowania biblioteki libraryCost i wyremontowania jednego odcinka drogi
+roadCost(różny dla różnych krawędzi).
+Oblicz minimalny koszt przedsięwzięcia.
+
+
+usuwamy na pewno wszystkie krawędzie - drogi, których koszt wyremontowania jest większy niż libraryCost
+(nie opłaca się ich budować, jak można postawić bibliotekę)
+Korzystamy z find/union. Sortujemy pozostałe krawędzie po wagach (rosnąco) i tworzymy rozłączne zbiory.
+Po dodaniu wszyskich możliwych krawędzi, w każdym rozłącznym zbiorze stawiamy bibliotekę.
+
+
+"""
+
+
+
