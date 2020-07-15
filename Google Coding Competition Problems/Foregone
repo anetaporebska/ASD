@@ -1,0 +1,71 @@
+"""
+ Someone just won the Code Jam lottery, and we owe them N jamcoins! However, when we tried to print out an oversized check, we encountered a problem. 
+ The value of N, which is an integer, includes at least one digit that is a 4... and the 4 key on the keyboard of our oversized check printer is broken.
+
+Fortunately, we have a workaround: we will send our winner two checks for positive integer amounts A and B, such that neither A nor B contains 
+any digit that is a 4, and A + B = N. Please help us find any pair of values A and B that satisfy these conditions. 
+
+"""
+
+
+
+
+def check_if_4(num):
+    while num:
+        if num % 10 == 4:
+            return True
+        num //= 10
+    return False
+
+def count_digits(num):
+    i=0
+    while num:
+        i+=1
+        num//=10
+    return i
+
+
+def jamcoins(n):
+
+    c=count_digits(n)
+    a=[0]*c
+    b=[0]*c
+    p=c-1
+    for i in range(c):
+        last=n%10
+        la=last
+        lb=0
+        while check_if_4(la) or check_if_4(lb):
+            la-=1
+            lb+=1
+        a[p]=la
+        b[p]=lb
+        p-=1
+        n//=10
+    la=0
+    lb=0
+    for i in range(c):
+        la=la*10+a[i]
+        lb=lb*10+b[i]
+
+
+    return (la,lb)
+
+
+
+
+
+
+if __name__=="__main__":
+    T=int(input())
+    arr=[0]*T
+    for i in range(T):
+        n=int(input())
+        arr[i]=n
+    for i in range(T):
+        c=i+1
+        (a,b)=jamcoins(arr[i])
+        print("Case #",end="")
+        print(c,end=": ")
+        print(a,b)
+
