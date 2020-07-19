@@ -1,0 +1,89 @@
+"""
+Kolokwium poprawkowe Termin 1 2020
+Zadanie 3
+
+Dana jest tablica A zawierająca n=len(A) liczb naturalnych. Dodatkowo wiadomo, że A w sumie zawiera k różnych liczb
+(należy założyć, że k jest dużo mniejsze niż n). Proszę zaimplementować funkcję longest_incomplete(A,k), która zwraca
+długość najdłuższego spójnego ciągu elementów z tablicy A, w którym nie występuje wszystkie k liczb.
+(Można założyć, że podana wartość k jest zawsze prawidłowa).
+
+
+"""
+
+def binarySearch(arr,val):
+    n=len(arr)
+    l=0
+    r=n-1
+    while l<=r:
+        s=(l+r)//2
+        if arr[s][0]==val:
+            return s
+        elif arr[s][0]<val:
+            l=s+1
+        else:
+            r=s-1
+
+    return -1
+
+def all_elements(arr):
+    for i in range(len(arr)):
+        if arr[i]==0:
+            return False
+    return True
+
+
+def longest_incomplete(A,k):
+    counter=[0]*k
+    added=[]
+    ind=0
+    for i in A:
+        if i not in added:
+            added.append(i)
+            ind+=1
+
+
+    krotki=[]
+    for i in range(len(added)):
+        krotki.append((added[i],i))
+    krotki=sorted(krotki)
+
+
+    left=0
+    right=0
+    max_len=1
+
+    idx=binarySearch(krotki,A[0])
+    counter[krotki[idx][1]]=1
+
+
+    while right<len(A) and left<len(A):
+        while not all_elements(counter) and right<len(A)-1:
+            length=right-left+1
+            if max_len<length:
+                max_len=length
+            right+=1
+            idx = binarySearch(krotki, A[right])
+            counter[krotki[idx][1]] += 1
+            if right==len(A)-1 and not all_elements(counter):
+                length = right - left + 1
+                if max_len < length:
+                    max_len = length
+
+        idx=binarySearch(krotki,A[left])
+        counter[krotki[idx][1]] -=1
+        left+=1
+
+    return max_len
+
+
+
+
+A=[1,100,5,100,1,5,1,5]
+print(longest_incomplete(A,3)) #4
+A  = [1,2,3,1,2,3,1,2,3]
+print(longest_incomplete(A,3)) #2
+B  = [1, 5, 10000, 100, 100000000, 10000, 100, 100000000, 100, 10000, 5, 1]
+print(longest_incomplete(B,5)) #10
+C  = [0, 1, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 0, 0]
+print(longest_incomplete(C,2)) #5
+
