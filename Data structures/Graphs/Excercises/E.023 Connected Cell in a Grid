@@ -1,0 +1,70 @@
+"""
+HackerRank Graphs
+"""
+
+def add_adj(G,grid,idx,i,j,n,m):
+    pos_x=[-1,0,1,1,1,0,-1,-1]
+    pos_y=[-1,-1,-1,0,1,1,1,0]
+
+    for k in range(8):
+        ii=i+pos_y[k]
+        jj=j+pos_x[k]
+
+        if ii >=0 and ii < n and jj >=0 and jj <m:
+            if grid[ii][jj]:
+                ind=ii*m+jj
+                if ind not in G[idx]:
+                    G[idx].append(ind)
+
+
+
+def maxRegion(grid):
+    n=len(grid)
+    m=len(grid[0])
+    G=[None]*n*m
+    v=n*m
+    for i in range(v):
+        G[i]=[]
+    for i in range(n):
+        for j in range(m):
+            if grid[i][j]:
+                idx=i*m+j
+                add_adj(G,grid,idx,i,j,n,m)
+
+
+    def BFS(g, v, visited):
+        queue=[]
+        queue.append(v)
+        counter=1
+        visited[v]=True
+        while queue:
+            s=queue.pop(0)
+            for i in g[s]:
+                if not visited[i]:
+                    queue.append(i)
+                    visited[i]=True
+                    counter+=1
+        return counter
+
+    counter=0
+    max_counter=0
+    visited=[False]*v
+    for i in range(v):
+        if not visited[i]:
+            counter=BFS(G,i,visited)
+            if counter>max_counter:
+                max_counter=counter
+
+    return max_counter
+
+
+
+
+
+
+g=[[1,1,0,0],[0,1,1,0],[0,0,1,0],[1,0,0,0]]
+print(maxRegion(g))
+g=[[1,0],[1,1]]
+print(maxRegion(g))
+g=[[1,0,1,1,0],[1,1,0,0,1],[0,1,1,1,0],[0,0,0,0,1],[1,1,1,0,0]]
+print(maxRegion(g))
