@@ -1,0 +1,52 @@
+"""
+HackerRank Graphs
+"""
+
+
+def to_adj_list(n,fr,to):
+    G=[None]*n
+    for i in range(n):
+        G[i]=[]
+    edg=len(fr)
+    for i in range(edg):
+        if G[fr[i]-1]:
+            G[fr[i]-1].append(to[i]-1)
+            G[to[i]-1].append(fr[i]-1)
+        else:
+            G[fr[i]-1]=[to[i]-1]
+            G[to[i]-1]=[fr[i]-1]
+
+    return G
+
+
+
+def findShortest(graph_nodes, graph_from, graph_to, ids, val):
+
+    g=to_adj_list(graph_nodes,graph_from,graph_to)
+
+    dist =[0]*graph_nodes
+    queue=[]
+    visited=[False]*(graph_nodes)
+    parent=[-1]*graph_nodes
+    for i in range(graph_nodes):
+        if ids[i]==val:
+            queue.append(i)
+            visited[i]=True
+
+
+    while queue:
+        s=queue.pop(0)
+        for i in g[s]:
+            if not visited[i] and ids[i]==val:
+                return dist[s]+1
+            elif not visited[i]:
+                queue.append(i)
+                visited[i]=True
+                parent[i]=s
+                dist[i]=dist[s]+1
+            elif visited[i] and parent[s]==i:
+                pass
+            else:
+                return dist[i]+dist[s]+1
+
+    return -1
