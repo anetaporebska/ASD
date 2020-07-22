@@ -1,0 +1,66 @@
+"""
+HackerRank DP
+
+"""
+
+
+def abbreviation(a,b):
+    len_a=len(a)
+    len_b=len(b)
+    f=[None]*len_a
+    for i in range(len_a):
+        f[i]=[False]*len_b
+
+    if a[0]==b[0] or a[0].upper()==b[0]:
+        f[0][0]=True
+
+    for i in range(1,len_a):
+        if not f[i-1][0] and a[i-1].islower() and (a[i]==b[0] or a[i].upper()==b[0]):
+            f[i][0]=True
+        if f[i-1][0] and a[i].islower():
+            f[i][0]=True
+
+
+
+    for i in range(1,len_a):
+        for j in range(1,len_b):
+
+
+            if a[i].islower() and a[i].upper()!=b[j]:
+                f[i][j]=f[i-1][j]
+            elif a[i].islower() and a[i].upper()==b[j]:
+                br=False
+                for k in range(0,i):
+                    if a[k].isupper():
+                        f[i][j] = f[i - 1][j - 1]
+                        br=True
+                        break
+                if not br:
+                    f[i][j]=True
+            elif a[i]==b[j]:
+                f[i][j]=f[i-1][j-1]
+            else:
+                f[i][j]=False
+    #print(f)
+
+    if f[len_a-1][len_b-1]:
+        return "YES"
+    else:
+        return "NO"
+
+
+print(abbreviation("AbcDE","ABDE")) #True
+print(abbreviation("daBcd","ABC")) #True
+print(abbreviation("AbcDE","AFDE")) #False
+print(abbreviation("XXVVnDEFYgYeMXzWINQYHAQKKOZEYgSRCzLZAmUYGUGILjMDET","XXVVDEFYYMXWINQYHAQKKOZEYSRCLZAUYGUGILMDETQVWU")) #NO
+print(abbreviation("PVJSNVBDXABZYYGIGFYDICWTFUEJMDXADhqcbzva","PVJSNVBDXABZYYGIGFYDICWTFUEJMDXAD")) #YES
+print(abbreviation("QOTLYiFECLAGIEWRQMWPSMWIOQSEBEOAuhuvo","QOTLYFECLAGIEWRQMWPSMWIOQSEBEOA")) #YES
+print(abbreviation("DRFNLZZVHLPZWIupjwdmqafmgkg","DRFNLZZVHLPZWI")) #YES
+print(abbreviation("SLIHGCUOXOPQYUNEPSYVDaEZKNEYZJUHFXUIL","SLIHCUOXOPQYNPSYVDEZKEZJUHFXUIHMGFP")) #NO
+print(abbreviation("RYASPJNZEFHEORROXWZFOVDWQCFGRZLWWXJVMTLGGnscruaa","RYASPJNZEFHEORROXWZFOVDWQCFGRZLWWXJVMTLGG")) #YES
+print(abbreviation("AVECtLVOXKPHIViTZViLKZCZAXZUZRYZDSTIHuCKNykdduywb","AVECLVOXKPHIVTZVLKZCZAXZUZRYZDSTIHCKN")) #YES
+print(abbreviation("wZPRSZwGIMUAKONSVAUBUgSVPBWRSTJZECxMTQXXA","ZPRSZGIMUAKONSVAUBUSVPBWRSTJZECMTQXXA")) #YES
+print(abbreviation("Pi","P"))
+print(abbreviation("KXzQ","K"))
+
+
