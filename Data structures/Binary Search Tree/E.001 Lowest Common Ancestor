@@ -1,0 +1,50 @@
+"""
+HackerRank Trees
+"""
+
+
+
+class Node:
+    def __init__(self, info):
+        self.info=info
+        self.left=None
+        self.right=None
+
+
+def lc(root, v1, v2):
+    if v1<root.info and v2>root.info:
+        return root
+    if root.info==v1 or root.info==v2:
+        return root
+    if v1<root.info and v2<root.info:
+        return lc(root.left,v1,v2)
+    else:
+        return lc(root.right,v1,v2)
+
+
+
+def lca(root,v1,v2):
+    if v1<v2:
+        return lc(root,v1,v2)
+    else:
+        return lc(root,v2,v1)
+
+
+root=Node(3)
+A=Node(2)
+B=Node(5)
+C=Node(1)
+D=Node(4)
+E=Node(6)
+F=Node(7)
+
+root.left=A
+root.right=B
+A.left=C
+B.left=D
+B.right=E
+E.right=F
+
+print(lca(root,6,7))
+
+
