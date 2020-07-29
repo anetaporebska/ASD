@@ -1,0 +1,20 @@
+"""
+HackerRank Greedy Algorithms
+"""
+import sys
+def maxMin(k, arr):
+    arr.sort()
+    j=k-1
+    i=0
+    n=len(arr)
+    min_uf=sys.maxsize
+    while j < n:
+        uf=arr[j]-arr[i]
+        if uf<min_uf:
+            min_uf=uf
+        i+=1
+        j+=1
+
+    return min_uf
+
+print(maxMin(4,[1,2,3,4,10,20,30,40,100,200]))
