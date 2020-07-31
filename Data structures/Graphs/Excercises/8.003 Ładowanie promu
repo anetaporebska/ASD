@@ -1,0 +1,49 @@
+"""
+Dana jest tablica A[n] z długościami samochodów, które stoją w kolejce, żeby wjechać na prom.
+Prom ma dwa pasy (prawy i lewy), oba długości D. Proszę napisać program, który wyznacza, które zamochody
+powinny pojechać na który pas, żeby na promie zmieściło się jak najwięcej aut.
+Auta muszą wjeżdżać w takiej kolejności, w jakiej są podane w tablicy A.
+
+
+wypisuje się to co powinno znaleźć się na jednym z pasów
+
+
+"""
+
+
+
+def ferry(A,D):
+    n=len(A)
+    f=[None]*(D+1)
+    for i in range(D+1):
+        f[i]=[0]*(n+1)
+    for i in range(1,D+1):
+        for j in range(1,n+1):
+            s=A[j-1]
+            if i==s:
+                f[i][j]=s
+            elif s>i or f[i][j-1]==i:
+                f[i][j]=f[i][j-1]
+            else:
+                f[i][j]=max(f[i-1][j],f[i][j-1])
+                for k in range(1,j):
+                    f[i][j]=max(f[i][j],s+f[i-s][j-1])
+    return f
+
+
+
+def print_solution(f,w,ind,A):
+    j=ind
+    if w==0:
+        return
+
+    while f[w][j-1]==w:
+        j-=1
+    print(j-1)
+    print_solution(f,w-A[j-1],j-1,A)
+
+
+A=[1,2,3,4,2,4,5]
+D=11
+f=ferry(A,D)
+print_solution(f,D,len(A),A)
