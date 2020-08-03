@@ -1,0 +1,51 @@
+"""
+Dana jest mapa kraju w postaci grafu G=(V,E). Kierowca chce przejechać z miasta (wierzchołka) s to miasta t.
+Niestety niektóre drogi (krawędzie) są płatne. Każda droga ma taką samą jednostkową opłatę. Proszę podać
+algorytm, który znajduje trasę wymagającą jak najmniejszej liczby opłat.
+
+
+
+double ended queue: if weight==0 put item up front, else at the back
+add vertex only if relaxation 
+
+"""
+
+
+
+import sys
+
+def binaryBFS(G,s):
+    V=len(G)
+    dist=[sys.maxsize]*V
+    dist[s]=0
+    q=[]
+    q.append(s)
+
+    while q:
+        v=q.pop(0)
+
+        for i in range(V):
+            if G[v][i]!=-1:
+                if dist[i]>dist[v]+G[v][i]:
+                    dist[i]=dist[v]+G[v][i]
+
+                    if G[v][i]==0:
+                        q.insert(0,i)
+                    else:
+                        q.append(i)
+
+
+    print(dist)
+
+
+
+
+G=[[-1,0,0,-1,-1,-1,-1],
+   [0,-1,-1,0,-1,1,-1],
+   [0,-1,-1,1,-1,-1,-1],
+   [-1,0,1,-1,0,-1,-1],
+   [-1,-1,-1,0,-1,0,-1],
+   [-1,1,-1,-1,0,-1,1],
+   [-1,-1,-1,-1,-1,1,-1]]
+
+binaryBFS(G,0)
