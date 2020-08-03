@@ -1,0 +1,12 @@
+"""
+Horn-SAT
+
+If the formula contains a clause composed of a single literal l then all clauses containing l are removed
+and all clauses containing ~l have this literal removed.
+If there are no unit clauses, the formula can be satisfied vy simply setting all remaining variables negative.
+The formula is unsatisfiable if this transformation generates a pair of opposite unit clauses l and ~l.
+
+
+
+"""
+
