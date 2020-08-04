@@ -1,0 +1,44 @@
+"""
+
+Na wejście dostajemy zbiór n miast oraz macierz odległości między każdą parą miast. Zadanie polega na obliczeniu
+najkrótszej trasy, która zaczyna się w mieście 1, kończy w mieście 1 i przebiega przez wszystkie pozostałe, żadnego
+nie powtarzając.
+
+Time complexity: O(n^2*2^n)
+"""
+import sys
+
+def sales(st,G,s,n):
+
+    if not True in st:
+        return G[s][0]
+
+
+    val=sys.maxsize
+
+    for i in range(n):
+        if st[i]:
+            st[i]=False
+            val=min(val,G[s][i]+sales(st,G,i,n))
+            st[i]=True
+    return val
+
+def travelling_salesman(G,s):
+    n=len(G)
+
+    st=[True]*n
+    st[s]=False
+    return sales(st,G,s,n)
+
+
+
+
+
+G=[[0,8,6,7,10],
+   [8,0,4,5,1],
+   [6,4,0,2,3],
+   [7,5,2,0,6],
+   [10,1,3,6,0]]
+
+print(travelling_salesman(G,0))
+
