@@ -1,0 +1,188 @@
+"""
+Kolokwium poprawkowe 2020
+Termin 1
+Zadanie 1
+
+
+Dana jest tablica dwuwymiarowa G, przedstawiająca macierz sąsiedztwa skierowanego grau ważonego, który odpowiada mapie
+drogowej (wagi przedstawiają odległości, liczba -1 oznacza brak krawędzi). W niektórych wierzchołkach są stacje paliw,
+podana jest ich lista P. Pełnego baku wystarczy na przejechanie odległości d. Wjeżdżając na stację samochód zawsze
+jest tankowany do pełna. Proszę zaimplementwoać funkcję jak_dojade(G,P,d,a,b), która szuka najkrótszej możliwej trasy
+od wierzchołka a do wierzchołka b, jeśli taka istnieje, i zwraca listę kolejnych odwiedzanych na trasie wierzchołków
+(zakładamy, że w a też jest stacja paliw; samochód może przejechać najwyżej odległość d bez tankowania).
+
+
+
+"""
+
+import sys
+
+def ret_parent(parent,s,t,ans):
+    ans.append(t)
+    if parent[s][t]!=-1:
+        ret_parent(parent,s,parent[s][t],ans)
+
+
+
+def FloydWarshall(G,P,d,s,t):
+    V=len(G)
+    f=[None]*V
+    b=[None]*V
+    parent=[None]*V
+    for i in range(V):
+        f[i]=[0]*V
+        b[i]=[0]*V
+        parent[i]=[-1]*V
+
+    station=[False]*V
+    for v in P:
+        station[v]=True
+
+    b[s][s]=d
+
+    for i in range(V):
+        for j in range(V):
+            if G[i][j]>d:
+                G[i][j]=0
+
+
+
+    for i in range(V):
+        for j in range(V):
+            if i==j:
+                f[i][j]=0
+            elif G[i][j]:
+                f[i][j]=G[i][j]
+                parent[i][j]=i
+                if station[j]:
+                    b[i][j]=d
+                   # b[j][j]=d
+                else:
+                    b[i][j]=d-G[i][j]
+            else:
+                f[i][j]=sys.maxsize
+
+
+    for k in range(V):
+        for i in range(V):
+            for j in range(V):
+                if f[i][j]>f[i][k]+f[k][j] and b[i][k]-G[k][j]>=0:
+                    f[i][j]=f[i][k]+f[k][j]
+                    parent[i][j]=k
+                    if b[i][j]!=d:
+                        b[i][j]=b[i][k]-G[k][j]
+
+
+    if f[s][t]<sys.maxsize:
+        ans = []
+        ret_parent(parent, s, t,ans)
+        ans.reverse()
+        return ans
+    return None
+
+
+
+P = [0,1,3]
+
+G = [[0, 6,0, 5, 2],
+[0,0, 1, 2,0],
+[0,0,0,0,0],
+[0,0, 4,0,0],
+[0,0, 8,0,0]]
+a=FloydWarshall(G,P,5,0,2)
+print(a)
+if a==[0,3,2]:
+    print("OK!")
+else:
+    print("Źle!")
+print("")
+
+
+
+G = [[0, 6,0, 5, 2],
+[0,0, 1, 2,0],
+[0,0,0,0,0],
+[0,0, 4,0,0],
+[0,0, 8,0,0]]
+a=FloydWarshall(G,P,6,0,2)
+print(a)
+if a==[0,1,2]:
+    print("OK!")
+else:
+    print("Źle!")
+print("")
+
+
+
+
+G = [[0, 6,0, 5, 2],
+[0,0, 1, 2,0],
+[0,0,0,0,0],
+[0,0, 4,0,0],
+[0,0, 8,0,0]]
+a=FloydWarshall(G,P,3,0,2)
+print(a)
+if a==None:
+    print("OK!")
+else:
+    print("Źle!")
+print("")
+
+
+P=[0,3,5,7]
+G=[[0,1,4,0,0,3,0,5],
+   [0,0,0,0,1,0,0,0],
+   [0,5,0,2,6,0,0,0],
+   [0,0,0,0,0,5,7,0],
+   [0,8,0,1,0,0,0,0],
+   [0,0,0,0,6,0,0,0],
+   [0,0,2,0,0,0,0,0],
+   [0,0,0,0,0,0,3,0]]
+
+a=FloydWarshall(G,P,3,0,4)
+print(a)
+if a==[0,1,4]:
+    print("OK!")
+else:
+    print("Źle!")
+print("")
+
+
+
+
+P=[0,3,5,7]
+G=[[0,1,4,0,0,3,0,5],
+   [0,0,0,0,1,0,0,0],
+   [0,5,0,2,6,0,0,0],
+   [0,0,0,0,0,5,7,0],
+   [0,8,0,1,0,0,0,0],
+   [0,0,0,0,6,0,0,0],
+   [0,0,2,0,0,0,0,0],
+   [0,0,0,0,0,0,3,0]]
+
+a=FloydWarshall(G,P,3,2,4)
+print(a)
+if a==None:
+    print("OK!")
+else:
+    print("Źle!")
+print("")
+
+
+P=[0,3,5,7]
+G=[[0,1,4,0,0,3,0,5],
+   [0,0,0,0,1,0,0,0],
+   [0,5,0,2,6,0,0,0],
+   [0,0,0,0,0,5,7,0],
+   [0,8,0,1,0,0,0,0],
+   [0,0,0,0,6,0,0,0],
+   [0,0,2,0,0,0,0,0],
+   [0,0,0,0,0,0,3,0]]
+
+a=FloydWarshall(G,P,4,0,2)
+print(a)
+if a==[0,2]:
+    print("OK!")
+else:
+    print("Źle!")
+print("")
