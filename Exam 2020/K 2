@@ -26,6 +26,10 @@ class FastListNode:
 
 
 def fast_list_prepend(L,a):
+    if not L:
+        L=FastListNode(a)
+        return L
+    
     NL=FastListNode(a)
     NL.next.append(L)
     node=L
