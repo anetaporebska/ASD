@@ -1,0 +1,72 @@
+"""
+Kolokwium poprawkowe Termin 1 2020
+Zadanie 2
+
+W szybkiej liście odsyłaczowej i-ty element posiada referencje (odsyłacze) do elementów: i + 2^0, i + 2^1, i + 2^2, ...
+(lista odsyłaczy z i-tego elementu kończy się na ostatnim elemencie o numerze postaci i + 2^k, który występuje w liście).
+Lista ta przechowuje liczby całkowite w kolejności niemalejącej.
+Napisz funkcję fast_list_prepend, która przyjmuje referencję na pierwszy węzeł szybkiej listy (L) oraz liczbę całkowitą
+(a) mniejszą od wszystkich liczb w przekazywanej liście i wstawia tę liczbą na początek szybkiej listy (jako nowy
+węzeł). W wyniku dodawania nowego elementu powinna powstać prawidłowa szybka lista. W szczególności każdy węzeł
+powinien mieć poprawne odsyłacze do innych węzłów. Funkcja powinna zwrócić referencję na nowy pierwszy węzeł
+szybkiej listy.
+
+
+"""
+
+class FastListNode:
+    def __init__(self,a):
+        self.a=a        #przechowywana liczba całkowita
+        self.next=[]    #lista odsyłaczy do innych elementów; początkowo pusta
+
+    def __str__(self):  #zwraca zawartość węzła w postaci napisu
+        res = 'a: '+ str(self.a) + '\t' + 'next keys: '
+        res += str([n.a for n in self.next])
+        return res
+
+
+def fast_list_prepend(L,a):
+    NL=FastListNode(a)
+    NL.next.append(L)
+    node=L
+    i=0
+
+    while i<len(node.next):
+        NL.next.append(node.next[i])
+        node=node.next[i]
+        i+=1
+
+    return NL
+
+
+def print_FL(L):
+
+    print(L.__str__())
+    if L.next:
+        print_FL(L.next[0])
+
+
+
+
+L=FastListNode(4)
+A=FastListNode(5)
+B=FastListNode(10)
+C=FastListNode(11)
+D=FastListNode(15)
+E=FastListNode(15)
+F=FastListNode(20)
+G=FastListNode(28)
+H=FastListNode(30)
+
+L.next=[A,B,D,H]
+A.next=[B,C,E]
+B.next=[C,D,F]
+C.next=[D,E,G]
+D.next=[E,F,H]
+E.next=[F,G]
+F.next=[G,H]
+G.next=[H]
+
+print_FL(L)
+print("\n\nNEW LIST\n")
+print_FL(fast_list_prepend(L,1))
