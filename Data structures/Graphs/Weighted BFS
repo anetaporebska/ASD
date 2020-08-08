@@ -1,0 +1,49 @@
+"""
+Ważony BFS - gdy wagi krawędzi są względnie małe
+
+
+d_left wskazuje na to ile zostało, żeby dotrzeć do wierzchołka
+
+
+"""
+
+
+import sys
+
+def wazonyBFS(G,s):
+    queue=[]
+    n=len(G)
+    queue.append((s,0,0))
+    cost=[sys.maxsize]*n
+    taken=[[False]*n for i in range(n)]
+
+    while queue:
+        v,d_left,dist=queue.pop(0)
+
+        if cost[v]>dist:
+            cost[v]=dist
+
+        if not d_left:
+            for u in range(n):
+                if G[v][u] and taken[v][u]==False:
+                    taken[v][u]=True
+                    queue.append((u,G[v][u],cost[v]+G[v][u]))
+        else:
+            queue.append((v,d_left-1,dist))
+
+    print(cost)
+
+
+
+
+
+
+G1 = [ [0,5,1,8,0,0,0],
+    [5,0,0,1,0,8,0],
+    [1,0,0,8,0,0,8],
+    [8,1,8,0,5,0,1],
+    [0,0,0,5,0,1,0],
+    [0,8,0,0,1,0,5],
+    [0,0,8,1,0,5,0]]
+
+wazonyBFS(G1,0)
