@@ -1,0 +1,57 @@
+"""
+Egzamin 2020 Termin 1
+Zadanie 3
+
+Pewien eksperyment fizyczny daje w wyniku liczby rzeczywiste postaci a^x, gdzie a to pewna stała większa od 1 (a>1)
+zaś x to liczby rzeczywiste rozłożone równomiernie na przedziale [0,1]. Napisz funkcję fast_sort, która przyjmuje
+tablicę liczb z wynikami eksperymentu oraz stałą a i zwraca tablicę z wynikami eksperymentu posortowanymi rosnąco.
+
+
+
+"""
+import math
+
+def insertion_sort(arr):
+    for i in range(1, len(arr)):
+        key = arr[i]
+        j = i - 1
+        while j >= 0 and key < arr[j]:
+            arr[j + 1] = arr[j]
+            j -= 1
+        arr[j + 1] = key
+
+    return arr
+
+def fast_sort(arr,a):
+
+    n=len(arr)
+    no_buckets=n//2
+    buckets=[[] for i in range(no_buckets)]
+    for i in arr:
+        x=math.log(i,a)
+        idx=int(no_buckets*x)
+        buckets[idx].append(i)
+
+    result=[]
+    for i in range(no_buckets):
+        buckets[i]=insertion_sort(buckets[i])
+        for j in buckets[i]:
+            result.append(j)
+
+    return result
+
+
+
+
+T1 = [0.1, 0.5, 0.2, 0.78, 0.01]
+T2 = [0.9, 0.7, 0.7, 0.5, 0.3, 0.2, 0.9]
+T3 = [0.1, 0.9, 0.2, 0.8, 0.3, 0.7, 0.4, 0.6]
+
+D1 = [2 ** x for x in T1]
+D2 = [2 ** x for x in T2]
+D3 = [3 ** x for x in T3]
+
+
+print(fast_sort(D1,2))
+print(fast_sort(D2,2))
+print(fast_sort(D3,3))
