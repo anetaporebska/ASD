@@ -1,0 +1,83 @@
+"""
+Egzamin 2020 Termin 1
+Zadanie 1
+
+Pewna kraina składa się z wysp pomiędzy którymi istnieją połączenia lotnicze, promowe oraz  mosty. Pomiędzy dwoma
+wyspami istnieje co najwyżej jeden rodzaj połączenia. Koszt przelotu z wyspy na wyspę wynosi 8, koszt przeprawy promowej
+wynosi 5, za przejście mostem trzeba wnieść opłatę 1. Poszukujemy trasy z wyspy A na wyspę B, która na kolejnych
+wyspach zmienai środek transportu na inny oraz minimalizuje koszt podróży.
+
+Dana jest tablica G, określająca koszt połączeń pomiędzy wyspami. Wartość 0 w macierzy oznacza brak bezpośredniego
+połączenia.
+Proszę zaimplementować funkcję islands(G,A,B) zwracającą minimalny koszt podróży z A na wyspę B. Jeśli trasa spełniająca
+warunki zadania nie istnieje, funkcja powinna zwrócić wartość None.
+
+
+
+
+
+"""
+
+import sys
+
+def islands(G,A,B):
+    queue=[]
+    n=len(G)
+
+    cost=[None]*n
+    for i in range(n):
+        cost[i]=[sys.maxsize]*3
+
+
+    queue.append((A, 0, 0,None))
+
+    # numbers for means of transport
+    # bridge = 0 -> 1
+    # plane = 1 -> 8
+    # prom = 2 -> 5
+
+
+    t=[None,0,None,None,None,2,None,None,1]
+
+    while queue:
+        v,d_left,dist,transp=queue.pop(0)
+
+        if not d_left:
+            if not transp:
+                for i in range(3):
+                    cost[v][i] = dist
+            else:
+                cost[v][t[transp]]=min(cost[v][t[transp]],dist)
+
+
+            for u in range(n):
+                if G[v][u]:
+
+                    if not transp:
+                      queue.append((u, G[v][u], G[v][u], G[v][u]))
+
+                    elif transp!=G[v][u] and cost[u][t[G[u][v]]]==sys.maxsize:
+                        queue.append((u,G[u][v],dist+G[v][u],G[v][u]))
+
+        elif cost[v][t[transp]]>dist:
+            queue.append((v,d_left-1,dist,transp))
+
+    print(cost)
+    result=sys.maxsize
+    for i in cost[B]:
+        result=min(result,i)
+
+    return result
+
+
+
+
+G1 = [ [0,5,1,8,0,0,0],
+    [5,0,0,1,0,8,0],
+    [1,0,0,8,0,0,8],
+    [8,1,8,0,5,0,1],
+    [0,0,0,5,0,1,0],
+    [0,8,0,0,1,0,5],
+    [0,0,8,1,0,5,0]]
+
+print(islandsS(G1,0,3))
