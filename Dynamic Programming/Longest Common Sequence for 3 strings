@@ -1,0 +1,41 @@
+"""
+Longest Common Sequence for 3 strings
+
+"""
+
+
+
+def LCSfor3(s1,s2,s3):
+    n1=len(s1)+1
+    n2=len(s2)+1
+    n3=len(s3)+1
+
+    f=[None]*n1
+
+    for i in range(n1):
+        f[i]=[None]*n2
+        for j in range(n2):
+            f[i][j]=[0]*n3
+
+    for i in range(1,n1):
+        for j in range(1,n2):
+            for k in range(1,n3):
+                if s1[i-1]==s2[j-1] and s2[j-1]==s3[k-1]:
+                    f[i][j][k]=f[i-1][j-1][k-1]+1
+                else:
+                    f[i][j][k]=max(f[i-1][j][k],f[i][j-1][k],f[i][j][k-1])
+
+    print(f[n1-1][n2-1][n3-1])
+
+
+
+
+
+
+s1="ACBDAB"
+s2="BDCABA"
+s3="BADACB"
+
+LCSfor3(s1,s2,s3)
+
+
