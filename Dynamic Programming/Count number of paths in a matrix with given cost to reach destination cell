@@ -1,0 +1,47 @@
+"""
+Count number of paths in a matrix with given cost to reach destination cell
+
+"""
+
+
+
+def no_paths(arr,cost):
+    n=len(arr)
+    f=[None]*n
+    for i in range(n):
+        f[i]=[None]*n
+        for j in range(n):
+            f[i][j]=[0]*cost
+
+
+    for i in range(n):
+        for j in range(n):
+            if i==0 and j==0:
+                f[i][j][cost-arr[i][j]]=1
+            elif i==0 and j>0:
+                for k in range(cost):
+                    if f[i][j-1][k]>0 and k-arr[i][j]>=0:
+                        f[i][j][k-arr[i][j]]+=1
+
+            elif j==0 and i>0:
+                for k in range(cost):
+                    if f[i-1][j][k] > 0 and k - arr[i][j] >= 0:
+                        f[i][j][k - arr[i][j]] += 1
+
+            else:
+                for k in range(cost):
+                    if f[i][j - 1][k] > 0 and k - arr[i][j] >= 0:
+                        f[i][j][k - arr[i][j]] += 1
+                for k in range(cost):
+                    if f[i-1][j][k] > 0 and k - arr[i][j] >= 0:
+                        f[i][j][k - arr[i][j]] += 1
+
+
+    print(f[n-1][n-1][0])
+
+
+
+
+arr=[[4,7,1,6],[5,7,3,9],[3,2,1,2],[7,1,6,3]]
+no_paths(arr,25)
+
