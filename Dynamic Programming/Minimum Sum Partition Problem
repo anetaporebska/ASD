@@ -1,0 +1,45 @@
+"""
+Minimum Sum Partition Problem
+
+Given a set o positive integers  S, partition the set S into two subsets S1, S2, such that the difference
+between the sum of elements in S1 and the sum of elements in S2 is minimized.
+
+
+O(n*sum)
+dla każdego indeksu sprawdzam czy da się uzyskać daną wartość sumy używając wartości pod tym indeksem lub nie
+
+
+"""
+
+def minSumPartition(S):
+
+    s=sum(S)
+    n=len(S)+1
+
+    f=[None]*(n)
+    for i in range(n):
+        f[i]=[False]*(s+1)
+
+    f[0][0]=True
+    for i in range(1,n):
+        f[i][0]=True
+
+        for j in range(1,s+1):
+            f[i][j]=f[i-1][j]
+            if S[i-1] <=j:
+                f[i][j]= f[i][j] or f[i-1][j-S[i-1]]
+
+
+    half=s//2
+    while not f[n-1][half]:
+        half-=1
+
+    print(s-half-half)
+
+
+
+
+
+
+S=[10,20,15,5,25]
+minSumPartition(S)
