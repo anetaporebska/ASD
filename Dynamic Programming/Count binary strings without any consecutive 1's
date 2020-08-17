@@ -1,0 +1,28 @@
+"""
+
+Given a positive integer N, count all N-digit binary strings without any consecutive 1's
+
+"""
+
+
+
+def noConsecutive1(n):
+
+    end_with_0=[0]*(n+1)
+    end_with_1=[0]*(n+1)
+
+    end_with_0[1]=1
+    end_with_1[1]=1
+
+    end_with_0[2]=2
+    end_with_1[2]=1
+
+    for i in range(3,n+1):
+
+        end_with_0[i]=end_with_0[i-1]+end_with_1[i-1]
+        end_with_1[i]=end_with_0[i-1]
+
+    print(end_with_0[n]+end_with_1[n])
+
+
+noConsecutive1(5)
