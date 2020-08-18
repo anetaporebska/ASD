@@ -17,7 +17,7 @@ def BFS(g,f):
         s=queue.pop(0)
         print(s)
 
-        for i in range(s,len(g)):
+        for i in range(len(g)):
             if visited[i]==False and g[s][i]==1:
                 queue.append(i)
                 visited[i]=True
