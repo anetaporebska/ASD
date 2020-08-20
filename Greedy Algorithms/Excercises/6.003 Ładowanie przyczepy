@@ -1,0 +1,39 @@
+"""
+Mamy przyczepę o pojemności  K kilogramów  oraz zbiór ładunków o wagach w1,..,wn. Waga każdego z ładunktów jest
+potęgą dwójki. Proszę podać algorytm zachłanny (i uzasadnić jego poprawność), który wybiera ładunki tak, że przyczepa
+jest możliwie maksymalnie zapełniona (ale bez przekraczania pojemności) i jednocześnie użyliśmy możliwie jak
+najmniej ładunków.
+
+
+
+Tablicę wag należy posortować malejąco i za każdym razem bierzemy ładunek o największej wadze taki, że jego załadowanie
+na przyczepę nie powoduje przekroczenia pojemności.
+
+Jako, że są to potęgi liczby 2 to jeśli bierzemy najcięższy ładunek to można go jedynie zastąpić przez dwa ładunki o
+wadze 2 razy mniejszej, a zależy nam na tym, żeby użyć jak najmniej ładunków.
+Ale dlaczego wybranie najcieższego ładunku nie sprawia, że stracimy optymalne rozwiązanie?
+bo wtedy jest niemożliwe otrzymanie danej wagi,
+Jeśli mam ładunek o wadze 2^i to natruralnym jest, że nie wybiorę 2 ładunków o wadze 2^(i-1)
+Ale jeśli nie wybiorę łądunku o max wadze to nie wystarczy mi ładunków, żeby załadować przyczepę, ponieważ
+2^i > 2^0 + 2^1 + 2^2 + .... + 2^(i-1)
+"""
+
+
+def ladunki(arr,K):
+    arr.sort()
+    arr.reverse()
+    count=0
+    z=K
+    for i in range(len(arr)):
+        if arr[i]<=z:
+            z-=arr[i]
+            count+=1
+    print(count,"załadowane: ",K-z)
+
+ladunki([64,1,2,64,32,32,8,16,4,4,],100)
+ladunki([64,1,2,64,32,32,8,16,4,4,],110)
+ladunki([64,1,2,64,32,32,8,16,4,4,],150)
+ladunki([64,1,2,64,32,32,8,16,4,4,],152)
+ladunki([64,32,4,1],83)
+ladunki([64,32,4,1],100)
+ladunki([64,32,4,1],99)
