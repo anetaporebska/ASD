@@ -1,0 +1,45 @@
+"""
+Grupa m dzieci bawi się w układanie możliwie jak największej wieży. Każde dziecko ma klocki różnej wysokości.
+Pierwsze dziecko ma klocki o wysokościach w1^1, w2^1,...,wn1^1, drugie dziecko klocki o wysokościach w1^2,...,wn2^2 itd.
+Dzieci właśnie poszły zjeść deser zanim ułożą swoje wieże, ale jedno dziecko zostało. Ma teraz okazję, żeby podebrać
+kilka klocków innym dzieciom tak, żeby jego wieża była najwyższa. Proszę podać możliwie najszybszy algorytm rozwiązujący
+ten problem, który zabiera minimalną ilość klocków.
+
+
+Sortuję rosnąco klocki każdego dziecka, oraz wyliczam sumę wysokości wszystkich  klocków dla każdego dziecka.
+Następnie za każdym razem podchodzę do najwyższej wieży i zabieram największy klocek, układam swoją wieżę do póki
+nie jest ona wyższa niż wszystkie inne.
+
+"""
+
+def mx_idx(arr):
+    idx=0
+    for i in range(1,len(arr)):
+        if arr[idx]<arr[i]:
+            idx=i
+    return idx
+
+
+def bricks(child):
+    s=[]
+    for i in range(len(child)):
+        child[i].sort()
+        s.append(sum(child[i]))
+    curr=0
+    i=0
+    while curr<max(s):
+
+        idx=mx_idx(s)
+        h=child[idx].pop(-1)
+        curr+=h
+        s[idx]-=h
+        i+=1
+
+    print(i)
+
+B1=[1,3,5,10,12,7,4]
+B2=[4,49,100,36,16,9,121]
+B3=[64,27,1,125,512]
+B4=[625,1,16]
+child=[B1,B2,B3,B4]
+bricks(child)
