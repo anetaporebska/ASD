@@ -1,0 +1,26 @@
+"""
+Dany jest zbiór punktów X={x1,...,xn} na prostej. Proszę podać algorytm, który znajduje minimalna liczbę
+przedziałów jednostkowych domkniętych, potrzebnych do pokrycia wszystkich punktów z X.
+
+
+
+Muszę pokryć wszystkie punkty, więc zaczynam od pierwszego i umieszczam przedział jednostkowy tak, żeby zaczynał się
+w tym punkcie i kończył max. na prawo, żeby pokrył kolejne przedziały w odległości 1 od tego pierwszego, a następnie
+przechodzę do kolejnego przedziału.
+
+"""
+
+
+def points(X):
+    X.sort()
+    r=0
+    c=0
+    for i in range(len(X)):
+        if X[i]>r:
+            r=X[i]+1
+            c+=1
+    print(c)
+
+
+X=[0.25,0.5,1.8,2.4,2.7,3.1,3.7,4.8,4.9]
+points(X)
