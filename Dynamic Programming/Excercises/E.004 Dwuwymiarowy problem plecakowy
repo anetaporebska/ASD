@@ -1,0 +1,41 @@
+"""
+Dwuwymiarowy problem plecakowy
+
+Proszę zaimplementować funckę knapsack2d(P,max_w,max_h), która oblicza maksymalną wartość plecaka w dwuwymiarowej wersji
+dyskretnego problemu plecakowego, określonego następująco. Mamy daną tablicę n trójek P=[(v0,w0,h0),...,(vn-1,wn-1,hn-1)],
+gdzie i-ta krotka ma następujące znaczenie: vi to wartość i-go przedmiotu, wi to jego waga, a hi to jego wysokość.
+Złodziej chce wybrać przedmioty o maksymalnej sumarycznej wartości, których łączna waga nie przekracza danej liczby
+max_w oraz których łączna wysokość nie przekracza max_h (przedmioty zapakowane są w kartony, które złodziej układa
+jeden na drugim).
+
+"""
+
+
+def knapsack2d(P,max_w,max_h):
+    n=len(P)
+    f= [None]*(max_h+1)
+    for i in range(max_h+1):
+        f[i]=[None]*(max_w+1)
+        for j in range(max_w+1):
+            f[i][j]=[0]*(n+1)
+
+    for i in range(1,max_h+1):
+        for j in range(1,max_w+1):
+            for k in range(1,n+1):
+                val=P[k-1][0]
+                w=P[k-1][1]
+                h=P[k-1][2]
+                if i-h>=0 and j-w>=0:
+                    f[i][j][k]=max(f[i][j][k],f[i][j][k-1],f[i-h][j-w][k-1]+val)
+                else:
+                    f[i][j][k]=max(f[i][j][k],f[i][j][k-1])
+    
+    return f[max_h][max_w][n]
+
+
+
+P=[(5,10,3),(7,8,12),(2,7,3)]
+print(knapsack2d(P,16,15))  #9
+P=[(10,2,3),(5,6,7),(7,6,7),(4,1,2),(6,5,5)]
+print(knapsack2d(P,10,10)) #20
+print(knapsack2d(P,15,15)) #23
