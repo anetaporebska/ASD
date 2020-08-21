@@ -1,0 +1,115 @@
+"""
+Dana jest mapa kraju w postaci grafu G=(V,E), gdzie wierzchołki to miasta a krawędzie to drogi łączące  miasta.
+Dla każdej drogi znana jest jest długość (wyrażona w kilomentrach jako liczba naturalna). Alicja i Bob prowadzą
+(na zmianę) autobus z miasta x do miasta y, zmieniając sę za kierwonicą w każdym kolejnym mieście. Alicja wybiera
+trasę oraz decyduje kto prowadzi pierwszy. Proszę zaproponować algorytm, który wskazuje taką trasę (oraz osobę, która
+ma prowadzić pierwsza), żeby Alicja przejechała jak najmniej kilometrów.
+
+
+
+
+Każdy wierzchołek rozbijamy na dwa - pierwszy jest dla Alicji - oznacza, że z danego wierzchołka wyjeżdża ona, a drugi
+dla Boba.
+Krawędzie łączymy na przemian (Alicja - Bob) i dla tych na których prowadzi Alicja dajemy wagę taką jaka była
+w oryginalnym grafie, a dla krawędzi Boba dajemy wagę 0.
+
+"""
+
+from queue import PriorityQueue
+
+
+def relax(cost,parent,infinity,v,u,cvu):
+    if infinity[u]:
+        cost[u]=cost[v]+cvu
+        parent[u]=v
+        infinity[u]=False
+        return True
+
+    if cost[u]>cost[v]+cvu:
+        cost[u]=cost[v]+cvu
+        parent[u]=v
+        return True
+    return False
+
+
+def dijkstra(G,s,t):
+    q=PriorityQueue()
+    n=len(G)
+    cost=[-1]*n
+    infinity=[True]*n
+    parent=[None]*n
+
+    cost[s]=0
+    infinity[s]=False
+    q.put((0,s))
+
+    while not q.empty():
+        c,v=q.get()
+        for i in range(n):
+            if G[v][i]!=-1:
+                if relax(cost,parent,infinity,v,i,G[v][i]):
+                    q.put((cost[i],i))
+    if cost[t*2]<cost[t*2+1]:
+        return cost[t*2],parent,t*2
+    else:
+        return cost[t*2+1],parent,t*2+1
+
+
+
+
+def modify(G):
+    n=len(G)
+    nn=n*2
+
+    g=[None]*nn
+    for i in range(nn):
+        g[i]=[-1]*nn
+
+    for i in range(n):
+        for j in range(n):
+            if G[i][j]!=-1:
+                g[i*2][j*2+1]=G[i][j]
+                g[i*2+1][j*2]=0
+    return g
+
+
+def print_path(parent,s):
+    if parent[s] is not None:
+        print_path(parent,parent[s])
+        print(s//2)
+
+
+def Alice(G,s,t):
+
+    g=modify(G)
+
+    cA,pA,eA=dijkstra(g,s*2,t)
+    cB,pB,eB=dijkstra(g,s*2+1,t)
+
+    if cA<cB:
+        print("zaczyna prowadzić Alicja, odległość którą ona przejedzie km:",cA)
+        print_path(pA,eA)
+    else:
+        print("zaczyna prowadzić Bob, Alicja przejedzie km:",cB)
+        print_path(pB,eB)
+
+
+
+
+
+G=[[-1,4,2,-1,-1,-1],
+   [-1,-1,5,3,-1,1],
+   [-1,-1,-1,7,1,-1],
+   [-1,-1,-1,-1,-1,-1],
+   [-1,-1,-1,4,-1,-1],
+   [-1,-1,-1,6,-1,-1]]
+Alice(G,0,3)
+
+
+
+
+
+
+
+
+
