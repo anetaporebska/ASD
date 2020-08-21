@@ -1,0 +1,107 @@
+import sys
+
+
+
+class PriorityQueue():
+    def __init__(self):
+        self.size=-1
+        self.arr=[]
+
+    def pop(self):
+        key,val=self.arr[0]
+        self.arr[0],self.arr[self.size]=self.arr[self.size],self.arr[0]
+        self.size-=1
+        self.arr.pop(-1)
+        heapify(self.arr,0,self.size)
+        return key,val
+
+    def put(self,key,value):
+
+        self.size+=1
+        self.arr.append((key,value))
+
+        i = self.size
+
+        while i > 0 and self.arr[i][0] < self.arr[parent(i)][0]:
+            self.arr[i], self.arr[parent(i)] = self.arr[parent(i)], self.arr[i]
+            i = parent(i)
+
+    def empty(self):
+        return self.size==-1
+
+
+
+def parent(i):
+    return (i-1)//2
+
+def leftChild(i):
+    return i*2+1
+
+def rightChild(i):
+    return i*2+2
+
+
+def heapify(heap,i,size):
+
+    l=leftChild(i)
+    r=rightChild(i)
+
+    m=i
+
+    if l<=size and heap[l][0]<heap[m][0]:
+        m=l
+    if r<=size and heap[r][0]<heap[m][0]:
+        m=r
+
+    if m != i:
+        heap[i],heap[m]=heap[m],heap[i]
+        heapify(heap,m,size)
+
+
+
+def relax(cost,parent,infinity,v,u,cvu):
+    if infinity[u]:
+        cost[u]=cost[v]+cvu
+        parent[u]=v
+        infinity[u]=False
+        return True
+
+    if cost[u]>cost[v]+cvu:
+        cost[u]=cost[v]+cvu
+        parent[u]=v
+        return True
+    return False
+
+
+def dijkstra(G,s):
+
+    n=len(G)
+    q=PriorityQueue()
+    cost=[-1]*n
+    infinity=[True]*n
+    parent=[None]*n
+
+    cost[s]=0
+    infinity[s]=False
+    q.put(0,s)
+
+    while not q.empty():
+        #print(q.arr)
+        c,v=q.pop()
+        for i in range(n):
+            if G[v][i]:
+                if relax(cost,parent,infinity,v,i,G[v][i]):
+                    q.put(cost[i],i)
+
+    print(cost)
+    print(parent)
+
+
+G = [[0, 4, 7, 2],
+     [4, 0, 0, 0],
+     [7, 0, 0, 2],
+     [2, 0, 2, 0]]
+
+dijkstra(G, 0)
+
+
