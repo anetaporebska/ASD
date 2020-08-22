@@ -18,3 +18,75 @@ Do kolejki wrzucamy krotki, najpierw porównujemy po pierwszym elemencie w tuplu
 
 
 
+"""
+Super-fajne ścieżki
+"""
+
+
+from queue import PriorityQueue
+
+
+def relax(cost,parent,infinity,v,u,cvu):
+    if infinity[u]:
+        cost[u]=cost[v]+cvu
+        parent[u]=v
+        infinity[u]=False
+        return True
+
+    if cost[u]>cost[v]+cvu:
+        cost[u]=cost[v]+cvu
+        parent[u]=v
+        return True
+    return False
+
+
+def dijkstra(G,s):
+    q=PriorityQueue()
+    n=len(G)
+    cost=[-1]*n
+    infinity=[True]*n
+    parent=[None]*n
+    dist=[None]*n   # dystans w sensie liczby krawędzi
+    cost[s]=0
+    dist[s]=0
+    infinity[s]=False
+    q.put((0,0,s))
+
+    while not q.empty():
+        c,d,v=q.get()
+
+
+
+        for i in range(n):
+            if G[v][i]:
+                if relax(cost,parent,infinity,v,i,G[v][i]):
+                    dist[i]=dist[v]+1
+                    q.put((cost[i],dist[i],i))
+
+    print(cost)
+    print(parent)
+    print(dist)
+
+
+
+
+
+
+
+G = [[0, 4, 7, 2],
+     [4, 0, 0, 0],
+     [7, 0, 0, 2],
+     [2, 0, 2, 0]]
+
+dijkstra(G, 0)
+
+
+G=[[0,1,2,0,0,6,5],
+   [0,0,3,0,0,0,0],
+   [0,0,0,1,0,4,0],
+   [0,0,0,0,0,3,0],
+   [0,0,0,5,0,0,0],
+   [0,0,0,0,2,0,0],
+   [0,0,0,0,0,8,0]]
+
+dijkstra(G,0)
