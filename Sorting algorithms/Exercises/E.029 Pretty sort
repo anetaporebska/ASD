@@ -1,0 +1,64 @@
+"""
+Kolokwium 1
+Zadanie 1
+
+Cyfra jednokrotna to taka, która występuje w danej liczbie dokładnie jeden raz. Cyfra wielokrotna to taka, która
+w liczbie występuje więcej niż 1 raz. Mówimy, że liczba naturalna A jest ładniejsza od liczby naturalnej B,
+jeżeli w liczbie A występuje więcej cyfr jednokrotnych niż w B, a jeżeli cyft jednokrotnych  jest tyle samo
+to ładniejsza jest ta liczba, która posiada mniej cyfr wielokrotnych.
+Dana jest tablica T zawierająca liczby naturalne. Proszę zaimplementować funkcję pretty_sort(T)
+która sortuje elementy tablicy T od najładniejszych do najmniej ładnych.
+
+
+
+Pomysł jest taki, że tworzę tablicę 11x11, A[i][j], w której pierwszy indeks i będzie oznaczał ilość cyfr jednokrotnych,
+a indeks j ilość cyfr wielokrotnych. Każdą liczbę wrzucę to tej tablicy do odpowiedniej komórki wskazującej na liczbę
+jej cyfr, a następnie wystarczy że przepiszę liczby do tablicy wynikowej w kolejności od największych wartości 
+indeksu i (tam gdzie występują liczby o największej liczbie cyfr wielokrotnych, od ostatniego wiersza tablicy) i w 
+kolejności rosnących indeksów j. (czyli zaczynam od A[10][0], A[10][1]...,A[10][10],A[9][0],A[9][1]...,A[0][10])
+
+
+"""
+
+def count(num):
+    counter=[0]*10
+
+    while num>0:
+        counter[num%10]+=1
+        num//=10
+    jedn=0
+    wiel=0
+    for i in range(10):
+        if counter[i]==1:
+            jedn+=1
+        elif counter[i]!=0:
+            wiel+=1
+    return jedn,wiel
+
+
+
+def pretty_sort(T):
+
+    A=[None]*11
+    for i in range(11):
+        A[i]=[None]*11
+        for j in range(11):
+            A[i][j]=[]*11
+    for val in T:
+        i,j=count(val)
+        A[i][j].append(val)
+
+    for i in range(11):
+        print(A[i])
+
+    output=[]
+    for i in range(10,-1,-1):
+        for j in range(11):
+            for k in range(len(A[i][j])):
+                output.append(A[i][j][k])
+    print(output)
+
+
+T=[122,133,144,2233,12345,1,123,1122889933445566779900,34638888,32578,23333,9999000,657483,283829204,4673,1234056789,23528937,2387729,239,33344,
+   123,455,1266,114577,2344,67333]
+pretty_sort(T)
