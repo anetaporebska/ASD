@@ -1,0 +1,26 @@
+"""
+LeetCode Jump Game I
+Given an array of non-negative integers, you are initially positioned at the first index of the array.
+Each element in the array represents your maximum jump length at that position.
+Determine if you are able to reach the last index.
+
+
+Greedy O(n)
+The idea is to work backwards from the last index. Keep track of the smallest index that can "jump" to the last
+index. Check whether current index can jump to this smallest index.
+
+
+"""
+
+def canJump(nums):
+    n=len(nums)
+    left=n-1
+    for i in range(n-2,-1,-1):
+        if i+nums[i]>=left:
+            left=i
+    return left<=0
+
+print(canJump([2,3,1,1,4]))
+print(canJump([3,2,1,0,4]))
+print(canJump([1,1,1,1,1]))
+print(canJump([3,1,0,1,0]))
