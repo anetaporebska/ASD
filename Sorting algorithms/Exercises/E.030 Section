@@ -1,0 +1,48 @@
+"""
+Kolokwium 1
+Zadanie 2
+
+Mamy n żołnierzy różnego wzrostu i nieuporządkowaną tablicę, w której podano wzrosty żołnierzy. Żołnieże zostaną
+ustawieni na placu w szeregu malejąco względem wzrostu. Poszę zaimplementować funkcję: section(T,p,q)
+która zwróci tablicą ze wzrostami żołnierzy na pozycjach od  p do q włącznie.
+
+Nie trzeba sortować, wystarczy zwrócić tablicę z żołnierzami na pozycjach od p do q.
+Wystarczy dwa razy skorzystać z k-tej statystyki pozycyjnej - rozwiązanie O(n)
+
+
+"""
+
+def partition(arr,left,right):
+    i=left-1
+    pivot=arr[right]
+    for j in range(left,right):
+        if arr[j]<=pivot:
+            i+=1
+            arr[i],arr[j]=arr[j],arr[i]
+    arr[i+1],arr[right]=arr[right],arr[i+1]
+    return i+1
+
+
+def kthStatistics(arr,left,right,k):
+    i=partition(arr,left,right)
+    if i==k:
+        return
+    if i>k:
+        kthStatistics(arr,left,i-1,k)
+    else:
+        kthStatistics(arr,i+1,right,k)
+
+
+def section(T,p,q):
+    n=len(T)
+    kthStatistics(T,0,n-1,p)
+    kthStatistics(T,p,n-1,q)
+    return T[p:q+1]
+
+
+
+
+T=[156,189,190,167,178,179,167,179,181,182,174,173,174,190,191,189,178,198,159,165,176,178,186,183,189]
+print(section(T,10,14))
+T=[1,4,7,9,2,10,20,13,19,3,5,8,12,6,11,18,14,15,17,16]
+print(section(T,10,14))
