@@ -36,7 +36,6 @@ def count(num):
     return jedn,wiel
 
 
-
 def pretty_sort(T):
 
     A=[None]*11
