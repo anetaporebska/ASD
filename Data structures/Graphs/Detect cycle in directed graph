@@ -1,0 +1,23 @@
+def detectCycle(g):
+    n=len(g)
+    visited=[False]*n
+    stack=[False]*n
+    cycle=[False]
+
+    def DFS(g, v, visited, stack, cycle):
+        visited[v] = True
+        for i in g[v]:
+            if not visited[i]:
+                stack[i] = True
+                DFS(g, i, visited, stack, cycle)
+                stack[i] = False
+            elif visited[i] and stack[i]:
+                cycle[0] = True
+
+    for i in range(n):
+        if not visited[i]:
+            stack[i]=True
+            DFS(g,i,visited,stack,cycle)
+            stack[i]=False
+    return cycle[0]
+
