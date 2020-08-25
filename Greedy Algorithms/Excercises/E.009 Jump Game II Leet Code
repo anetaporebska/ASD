@@ -1,0 +1,35 @@
+"""
+LeetCode Jump Game II
+
+Given an array of non-negative integers, you are initially positioned at the first index of the array.
+Each element in the array represents your maximum jump length at that position.
+Your goal is to reach the last index in the minimum number of jumps
+
+The idea is to maintain two pointers left and right.
+Initially left=0 and right=num[0]
+Points between left and right are the ones you can reach using 1 jump.
+Next, we want to find points we can reach using 2 jumps, so our new left will be equal to right, and our new
+right will be equal to the farthest point we can reach by two jumps.
+
+
+"""
+
+def canJump(nums):
+    n=len(nums)
+    if n<=1:
+        return 0
+    l=0
+    r=nums[0]
+    counter=1
+    while r<n-1:
+        counter+=1
+        p=r
+        for i in range(l,r+1):
+            r=max(r,i+nums[i])
+        l=p
+    return counter
+
+
+print(canJump([2,3,1,1,4]))
+print(canJump([1,1,1,1,1]))
+print(canJump([3,1,0,1,0]))
