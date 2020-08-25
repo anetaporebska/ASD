@@ -1,0 +1,22 @@
+"""
+Kolokwium 1
+Zadanie 3
+
+Proszę zaproponować algorytm, który dla tablicy liczb całkowitych rozstrzyga czy każda  liczba z tablicy jest
+sumą dwóch innych liczb z tablicy. Zaproponowany algrorytm powinien być możliwie jak najszybszy. Proszę oszacować
+jego złożoność obliczeniową.
+
+
+Tablicę licb sortujemy, a następnie korzystamy metody dwóch wskaźników dla każdego elementu z tablicy.
+Iterujemy po posortowanej tablicy i dla każdej wartości sprawdzamy czy istnieją dwie takie liczby, które się 
+do niej sumują - pierwszy wskaźnik ustawiamy na początku tablicy, a drugi na samym końcu, jeśli suma wartości
+wskazywanych przez wskaźniki jest większa niż szukana wartość to wskaźnik prawy przesuwamy o jeden w lewo, jeśli jest 
+mniejsza to lewy wskaźnik przesuwamy o jeden w prawo. Wykonujemy tę operacje dopóki nie znajdziemy szukanej wartości, 
+jeśli się nam to uda to możemy przejść do sprawdzania kolejnego elementu w tablicy wejściowej, lub dopóki oba wskaźniki
+się "nie spotkają" lub "nie skrzyżują" - jeśli tak się stanie, to oznacza, że nie znaleźliśmy szukanej wartości
+i można już zrócić wartość False, gdyź mieliśmy stwierdzić czy wszystkie wartości spełniają ten warunek.
+
+
+
+"""
+
