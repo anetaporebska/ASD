@@ -1,0 +1,34 @@
+"""
+LeetCode Jump Game III
+
+Given an array of non-negative integers arr, you are initially positioned at start index of the array.
+When you are at index i, you can jump to i + arr[i] or i - arr[i], check if you can reach to any index with value 0.
+Notice that you can not jump outside of the array at any time.
+
+
+
+
+"""
+
+def canJump(nums,start):
+    n=len(nums)
+    visited=[False]*n
+    q=[]
+    q.append(start)
+    while q:
+        s=q.pop(0)
+        visited[s]=True
+        if nums[s]==0:
+            return True
+        l=s-nums[s]
+        r=s+nums[s]
+        if r<n and not visited[r]:
+            q.append(r)
+        if l>=0 and not visited[l]:
+            q.append(l)
+
+    return False
+
+print(canJump([4,2,3,0,3,1,2],5))
+print(canJump([4,2,3,0,3,1,2],0))
+print(canJump([3,0,2,1,2],2))
