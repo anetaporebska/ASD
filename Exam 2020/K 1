@@ -13,74 +13,115 @@ od wierzchołka a do wierzchołka b, jeśli taka istnieje, i zwraca listę kolej
 
 
 
+
+odpalamy floyd-warshall na tym grafie i mamy tą macierz, w której są najkrótsze ścieżki pomiędzy każdą parą wierzchołków
+budujemy nowy graf, którego wierzchołkami są te wierzchołki, w których jest stacja benzynowa (oraz musimy dodać
+ wierzchołek t, który jest ujściem, nie ma znaczenia czy jest stacją czy nie, bo do niego mamy dojechać)
+wagę każdej krawędzi pomiędzy nimi bierzemy z tej naszej macierzy
+(tylko nie dodajemy tych krawędzi, których wagi są większe niż  pojemność baku)
+i w ten sposób mamy graf, w którym z każdego wierzchołka się da dojechać do kolejnego (jeśli jest taka krawędź),
+bo nie przekraczamy pojemności
+i wystarczy teraz odpalić dowolny algorytm najkrótszych ścieżek na tym nowym grafie
+(w mojej implementacji tworzę graf o takim samym rozmiarze jak poprzedni tylko te wierzchołki w których nie było stacji
+mają stopień równy 0; żeby nie było zamieszania ze zmianą nazw wierzchołków)
+
+Żeby móc odtworzyć sieżkę, którą należy się poruszać i nie "zapomnieć" o tych wierzchołkach w których nie ma stacji
+benzynowych, przy drugim znajdowaniu najkrótszej ścieżki floydem-warshallem uzupełniam sobie najpierw pola parent
+w nowej tablicy, jeśli znajduje się w nich wierzchołek,  w którym nie ma stacji beznynowej (żeby pamiętać, że ścieżka
+od stacji a do b biegła przez c), a następnie uzupełniam pozostałe pola parent podczas uzupełniania nowej tablicy
+odległości pomiędzy stacjami
+
 """
 
 import sys
 
+# funkcja do odtwarzania ścieżki
 def ret_parent(parent,s,t,ans):
     ans.append(t)
     if parent[s][t]!=-1:
         ret_parent(parent,s,parent[s][t],ans)
 
 
-
 def FloydWarshall(G,P,d,s,t):
-    V=len(G)
-    f=[None]*V
-    b=[None]*V
-    parent=[None]*V
+    V = len(G)
+    f = [None] * V
+    parent = [None] * V
+    parent_2 = [None] * V
     for i in range(V):
-        f[i]=[0]*V
-        b[i]=[0]*V
-        parent[i]=[-1]*V
+        f[i] = [0] * V
+        parent[i] = [-1] * V
+        parent_2[i] = [-1] * V
 
-    station=[False]*V
-    for v in P:
-        station[v]=True
-
-    b[s][s]=d
-
+    # uzupełniam wartości początkowe w macierzy dla Floyda-Warshalla 
     for i in range(V):
         for j in range(V):
-            if G[i][j]>d:
-                G[i][j]=0
-
-
-
-    for i in range(V):
-        for j in range(V):
-            if i==j:
-                f[i][j]=0
+            if i == j:
+                f[i][j] = 0
             elif G[i][j]:
-                f[i][j]=G[i][j]
-                parent[i][j]=i
-                if station[j]:
-                    b[i][j]=d
-                   # b[j][j]=d
-                else:
-                    b[i][j]=d-G[i][j]
+                f[i][j] = G[i][j]
             else:
-                f[i][j]=sys.maxsize
+                f[i][j] = sys.maxsize
 
-
+    # pierwszy Flyd-Warshall na wejściowym grafie
     for k in range(V):
         for i in range(V):
             for j in range(V):
-                if f[i][j]>f[i][k]+f[k][j] and b[i][k]-G[k][j]>=0:
+                if f[i][j]>f[i][k]+f[k][j]:
                     f[i][j]=f[i][k]+f[k][j]
                     parent[i][j]=k
-                    if b[i][j]!=d:
-                        b[i][j]=b[i][k]-G[k][j]
 
+    # tworzę nowy graf
+    g=[None]*V
+    for i in range(V):
+        g[i]=[0]*V
 
+    for v in P:
+        for i in range(V):
+            if i in P and f[v][i]<=d:
+                g[v][i]=f[v][i]
+            elif i==t and f[v][i]<=d:
+                g[v][i]=f[v][i]
+
+    # uzupełniam wartości początkowe w macierzy dla Floyda-Warshalla
+    for i in range(V):
+        for j in range(V):
+            if i == j:
+                f[i][j] = 0
+            elif g[i][j]:
+                f[i][j] = g[i][j]
+            else:
+                f[i][j] = sys.maxsize
+
+    # uzupełniam pola parent z poprzedniego przebiegu Floyda-Warshalla, tylko jeśli nie są stacjami benzynowymi
+    for i in range(V):
+        for j in range(V):
+            if parent[i][j] not in P:
+                parent_2[i][j]=parent[i][j]
+
+    # drugi przebieg Floyda-Warshalla
+    for k in range(V):
+        for i in range(V):
+            for j in range(V):
+                if f[i][j]>f[i][k]+f[k][j]:
+                    f[i][j]=f[i][k]+f[k][j]
+                    parent_2[i][j]=k
+
+    # odtworzenie wyniku jeśli ścieżka w ogóle istnieje
     if f[s][t]<sys.maxsize:
-        ans = []
-        ret_parent(parent, s, t,ans)
+        ans=[]
+        ret_parent(parent_2,s,t,ans)
+        ans.append(s)
         ans.reverse()
+
         return ans
-    return None
+    else:
+        return None
 
 
+
+
+
+#--------------------------------TESTY-------------------------------------#
 
 P = [0,1,3]
 
@@ -186,3 +227,18 @@ if a==[0,2]:
 else:
     print("Źle!")
 print("")
+
+P=[0,2,4,5]
+G=[[0,2,5,0,0,4,2],
+   [0,0,1,0,0,0,0],
+   [0,0,0,7,4,3,0],
+   [0,0,0,0,0,0,0],
+   [0,0,0,4,0,0,0],
+   [0,0,0,7,4,0,0],
+   [0,0,3,0,0,5,0]]
+a=FloydWarshall(G,P,5,0,3)
+print(a)
+if a==[0,1,2,4,3]:
+    print("OK!")
+else:
+    print("Źle")
