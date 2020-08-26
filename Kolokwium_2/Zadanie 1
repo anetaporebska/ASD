@@ -1,0 +1,60 @@
+"""
+Kolokwium 2 2020
+Zadanie 1
+
+Proszę zaimplementować funkcję heavy_path(T), która na wejściu otrzymuje drzewo T z ważonymi krawędziami (wagi to liczby
+całkowite) i zwraca długość (wagę) najdłuższej ścieżki prostej w tym drzewie. Drzewo reprezentowane jest za pomocą
+obiektów typu Node:
+class Node:
+    def __init__(self):
+        self.children=0
+        self.child=[]
+
+-------------------------------------------------------------------------------------------------------------
+
+Dla każdego wierzchołka należy obliczyć wartość najdluższej prostej ścieżki prowadzącej od tego wierzchołka do dzieci
+oraz od któregoś z dzieci, przez ten wierzchołek i do innego z dzieci.
+
+Złożoność: O(n), gdzie n to liczba wszstkich Node'ów
+
+"""
+
+class Node:
+    def __init__(self):
+        self.children=0
+        self.child=[]
+        self.maxlen=0       #przechodząca przez ten wierzchołek i do dzieci
+        self.chlen=0        #biegnąca od dziecka przez wierzchołek i do dziecka
+        self.lens=[]        #tablica, w której będę przechowywać max długości do każdego z dzieci
+
+def heavy_path(T):
+    if T.children==0:
+        return 0
+    else:
+        for i in range(len(T.child)):
+            T.lens.append(heavy_path(T.child[i][0])+T.child[i][1])
+    T.maxlen=max(T.lens)
+    if len(T.lens)>=2:
+        arr=T.lens[:]
+        arr=sorted(arr)
+        T.chlen=arr[-1]+arr[-2]
+    return T.maxlen
+
+
+def mx(T):      #muszę jeszcze raz przejść przez wszystkie wierzchołki i znajeźć max
+    heavy_path(T)
+    queue=[]
+    queue.append(T)
+    m=0
+    while queue:
+        w=queue.pop(0)
+        for i in range(len(w.child)):
+            queue.append(w.child[i][0])
+        m=max(m,w.maxlen,w.chlen)
+    return m
+
+
+
+
+
+
